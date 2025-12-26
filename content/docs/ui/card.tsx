@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Card,
   CardHeader,
@@ -8,7 +10,7 @@ import {
 } from "@/registry/new-york/ui/card";
 import { Button } from "@/registry/new-york/ui/button";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -130,7 +132,7 @@ export function CardDoc({ sourceCode }: CardDocProps) {
         </h2>
         <PreviewTabs
           preview={<CardDemo />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -144,7 +146,7 @@ export function CardDoc({ sourceCode }: CardDocProps) {
             <h3 className="text-lg font-medium mb-3">Notification Card</h3>
             <PreviewTabs
               preview={<CardBasic />}
-              codeBlock={<CodeBlock code={notificationCode} />}
+              codeBlock={<SimpleCodeblock code={notificationCode} />}
             />
           </div>
         </div>
@@ -184,7 +186,7 @@ export function CardDoc({ sourceCode }: CardDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="card.tsx" />
+        <SimpleCodeblock code={sourceCode} filename="card.tsx" />
       </section>
     </div>
   );

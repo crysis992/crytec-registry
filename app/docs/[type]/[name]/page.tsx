@@ -9,6 +9,7 @@ import { siteConfig } from "@/config/site";
 // Content imports
 import { ButtonDoc } from "@/content/docs/ui/button";
 import { CardDoc } from "@/content/docs/ui/card";
+import { CodeblockDoc } from "@/content/docs/ui/codeblock";
 import { InputDoc } from "@/content/docs/ui/input";
 import { LabelDoc } from "@/content/docs/ui/label";
 import { TextareaDoc } from "@/content/docs/ui/textarea";
@@ -20,6 +21,7 @@ import { ExampleFormDoc } from "@/content/docs/blocks/example-form";
 const contentMap: Record<string, React.ComponentType<{ sourceCode: string }>> = {
   button: ButtonDoc,
   card: CardDoc,
+  codeblock: CodeblockDoc,
   input: InputDoc,
   label: LabelDoc,
   textarea: TextareaDoc,

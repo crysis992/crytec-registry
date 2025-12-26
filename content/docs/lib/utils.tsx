@@ -1,5 +1,7 @@
+"use client"
+
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -98,7 +100,7 @@ export function UtilsDoc({ sourceCode }: UtilsDocProps) {
               <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">tailwind-merge</code>{" "}
               to resolve conflicting Tailwind classes.
             </p>
-            <CodeBlock code={cnCode} />
+            <SimpleCodeblock code={cnCode} />
             <div className="mt-4">
               <h4 className="text-sm font-medium mb-2">Parameters</h4>
               <PropsTable props={cnParams} />
@@ -110,7 +112,7 @@ export function UtilsDoc({ sourceCode }: UtilsDocProps) {
             <p className="text-[var(--muted-foreground)] mb-4">
               Formats a Date object to a localized string using Intl.DateTimeFormat.
             </p>
-            <CodeBlock code={formatDateCode} />
+            <SimpleCodeblock code={formatDateCode} />
             <div className="mt-4">
               <h4 className="text-sm font-medium mb-2">Parameters</h4>
               <PropsTable props={formatDateParams} />
@@ -123,7 +125,7 @@ export function UtilsDoc({ sourceCode }: UtilsDocProps) {
               Returns a promise that resolves after the specified milliseconds.
               Useful for delays in async functions.
             </p>
-            <CodeBlock code={sleepCode} />
+            <SimpleCodeblock code={sleepCode} />
             <div className="mt-4">
               <h4 className="text-sm font-medium mb-2">Parameters</h4>
               <PropsTable props={sleepParams} />
@@ -168,7 +170,7 @@ export function UtilsDoc({ sourceCode }: UtilsDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="utils.ts" language="typescript" />
+        <SimpleCodeblock code={sourceCode} filename="utils.ts" language="typescript" />
       </section>
     </div>
   );

@@ -1,6 +1,8 @@
+"use client"
+
 import ExampleForm from "@/registry/new-york/blocks/example-form/page";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -73,7 +75,7 @@ export function ExampleFormDoc({ sourceCode }: ExampleFormDocProps) {
         </p>
         <PreviewTabs
           preview={<ExampleForm />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -88,7 +90,7 @@ export function ExampleFormDoc({ sourceCode }: ExampleFormDocProps) {
             <p className="text-[var(--muted-foreground)] mb-4">
               The form uses Zod for runtime validation with clear error messages.
             </p>
-            <CodeBlock code={schemaCode} />
+            <SimpleCodeblock code={schemaCode} />
           </div>
 
           <div>
@@ -96,7 +98,7 @@ export function ExampleFormDoc({ sourceCode }: ExampleFormDocProps) {
             <p className="text-[var(--muted-foreground)] mb-4">
               Integrates React Hook Form with Zod resolver for seamless validation.
             </p>
-            <CodeBlock code={hookFormCode} />
+            <SimpleCodeblock code={hookFormCode} />
           </div>
         </div>
       </section>
@@ -140,7 +142,7 @@ export function ExampleFormDoc({ sourceCode }: ExampleFormDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="example-form/page.tsx" />
+        <SimpleCodeblock code={sourceCode} filename="example-form/page.tsx" />
       </section>
     </div>
   );

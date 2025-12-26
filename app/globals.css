@@ -86,3 +86,43 @@
     @apply bg-[var(--background)] text-[var(--foreground)];
   }
 }
+
+/* Codeblock: Line Numbers */
+.codeblock-line-numbers .line[data-line]::before {
+  content: attr(data-line);
+  display: inline-block;
+  width: 2rem;
+  margin-right: 1rem;
+  text-align: right;
+  color: var(--muted-foreground);
+  opacity: 0.5;
+  user-select: none;
+}
+
+/* Codeblock: Line Highlighting */
+.line.highlighted {
+  display: inline-block;
+  width: calc(100% + 2rem);
+  margin-left: -1rem;
+  margin-right: -1rem;
+  padding-left: 0.75rem;
+  padding-right: 1rem;
+  background-color: oklch(0.5 0.1 250 / 0.1);
+  border-left: 3px solid oklch(0.6 0.15 250);
+}
+
+.dark .line.highlighted {
+  background-color: oklch(0.6 0.15 250 / 0.15);
+  border-left-color: oklch(0.7 0.2 250);
+}
+
+/* Shiki dual theme support - dark mode switches to --shiki-dark variables */
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+.dark .shiki {
+  background-color: var(--shiki-dark-bg) !important;
+}

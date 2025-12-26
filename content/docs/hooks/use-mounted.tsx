@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useMounted } from "@/registry/new-york/hooks/use-mounted";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -94,7 +94,7 @@ export function UseMountedDoc({ sourceCode }: UseMountedDocProps) {
         </p>
         <PreviewTabs
           preview={<UseMountedDemo />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -112,7 +112,7 @@ export function UseMountedDoc({ sourceCode }: UseMountedDocProps) {
             </p>
             <PreviewTabs
               preview={<UseMountedExample />}
-              codeBlock={<CodeBlock code={exampleCode} />}
+              codeBlock={<SimpleCodeblock code={exampleCode} />}
             />
           </div>
         </div>
@@ -130,7 +130,7 @@ export function UseMountedDoc({ sourceCode }: UseMountedDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="use-mounted.ts" language="typescript" />
+        <SimpleCodeblock code={sourceCode} filename="use-mounted.ts" language="typescript" />
       </section>
     </div>
   );

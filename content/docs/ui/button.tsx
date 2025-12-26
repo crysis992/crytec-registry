@@ -1,6 +1,8 @@
+"use client"
+
 import { Button } from "@/registry/new-york/ui/button";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -82,7 +84,7 @@ export function ButtonDoc({ sourceCode }: ButtonDocProps) {
         </h2>
         <PreviewTabs
           preview={<ButtonDemo />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -96,7 +98,7 @@ export function ButtonDoc({ sourceCode }: ButtonDocProps) {
             <h3 className="text-lg font-medium mb-3">Variants</h3>
             <PreviewTabs
               preview={<ButtonVariants />}
-              codeBlock={<CodeBlock code={variantsCode} />}
+              codeBlock={<SimpleCodeblock code={variantsCode} />}
             />
           </div>
 
@@ -104,7 +106,7 @@ export function ButtonDoc({ sourceCode }: ButtonDocProps) {
             <h3 className="text-lg font-medium mb-3">Sizes</h3>
             <PreviewTabs
               preview={<ButtonSizes />}
-              codeBlock={<CodeBlock code={sizesCode} />}
+              codeBlock={<SimpleCodeblock code={sizesCode} />}
             />
           </div>
         </div>
@@ -121,7 +123,7 @@ export function ButtonDoc({ sourceCode }: ButtonDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="button.tsx" />
+        <SimpleCodeblock code={sourceCode} filename="button.tsx" />
       </section>
     </div>
   );

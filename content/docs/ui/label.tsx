@@ -1,7 +1,9 @@
+"use client"
+
 import { Label } from "@/registry/new-york/ui/label";
 import { Input } from "@/registry/new-york/ui/input";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -79,7 +81,7 @@ export function LabelDoc({ sourceCode }: LabelDocProps) {
         </h2>
         <PreviewTabs
           preview={<LabelDemo />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -93,7 +95,7 @@ export function LabelDoc({ sourceCode }: LabelDocProps) {
             <h3 className="text-lg font-medium mb-3">With Input</h3>
             <PreviewTabs
               preview={<LabelWithInput />}
-              codeBlock={<CodeBlock code={withInputCode} />}
+              codeBlock={<SimpleCodeblock code={withInputCode} />}
             />
           </div>
 
@@ -102,7 +104,7 @@ export function LabelDoc({ sourceCode }: LabelDocProps) {
             <PreviewTabs
               preview={<LabelDisabled />}
               codeBlock={
-                <CodeBlock
+                <SimpleCodeblock
                   code={`<Label htmlFor="disabled-input">Disabled Field</Label>
 <Input id="disabled-input" placeholder="Disabled" disabled />`}
                 />
@@ -123,7 +125,7 @@ export function LabelDoc({ sourceCode }: LabelDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="label.tsx" />
+        <SimpleCodeblock code={sourceCode} filename="label.tsx" />
       </section>
     </div>
   );

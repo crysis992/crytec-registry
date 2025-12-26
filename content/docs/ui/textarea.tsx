@@ -1,7 +1,9 @@
+"use client"
+
 import { Textarea } from "@/registry/new-york/ui/textarea";
 import { Label } from "@/registry/new-york/ui/label";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -88,7 +90,7 @@ export function TextareaDoc({ sourceCode }: TextareaDocProps) {
         </h2>
         <PreviewTabs
           preview={<TextareaDemo />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -102,7 +104,7 @@ export function TextareaDoc({ sourceCode }: TextareaDocProps) {
             <h3 className="text-lg font-medium mb-3">With Label</h3>
             <PreviewTabs
               preview={<TextareaWithLabel />}
-              codeBlock={<CodeBlock code={withLabelCode} />}
+              codeBlock={<SimpleCodeblock code={withLabelCode} />}
             />
           </div>
 
@@ -111,7 +113,7 @@ export function TextareaDoc({ sourceCode }: TextareaDocProps) {
             <PreviewTabs
               preview={<TextareaStates />}
               codeBlock={
-                <CodeBlock
+                <SimpleCodeblock
                   code={`<Textarea placeholder="Default textarea" />
 <Textarea placeholder="Disabled textarea" disabled />`}
                 />
@@ -132,7 +134,7 @@ export function TextareaDoc({ sourceCode }: TextareaDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="textarea.tsx" />
+        <SimpleCodeblock code={sourceCode} filename="textarea.tsx" />
       </section>
     </div>
   );

@@ -1,7 +1,9 @@
+"use client"
+
 import { Input } from "@/registry/new-york/ui/input";
 import { Label } from "@/registry/new-york/ui/label";
 import { PreviewTabs, ComponentPreview } from "@/components/docs/component-preview";
-import { CodeBlock } from "@/components/docs/code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 import { PropsTable } from "@/components/docs/props-table";
 import type { PropDefinition } from "@/types/docs";
 
@@ -92,7 +94,7 @@ export function InputDoc({ sourceCode }: InputDocProps) {
         </h2>
         <PreviewTabs
           preview={<InputDemo />}
-          codeBlock={<CodeBlock code={usageCode} />}
+          codeBlock={<SimpleCodeblock code={usageCode} />}
         />
       </section>
 
@@ -106,7 +108,7 @@ export function InputDoc({ sourceCode }: InputDocProps) {
             <h3 className="text-lg font-medium mb-3">With Label</h3>
             <PreviewTabs
               preview={<InputWithLabel />}
-              codeBlock={<CodeBlock code={withLabelCode} />}
+              codeBlock={<SimpleCodeblock code={withLabelCode} />}
             />
           </div>
 
@@ -114,7 +116,7 @@ export function InputDoc({ sourceCode }: InputDocProps) {
             <h3 className="text-lg font-medium mb-3">States</h3>
             <PreviewTabs
               preview={<InputStates />}
-              codeBlock={<CodeBlock code={statesCode} />}
+              codeBlock={<SimpleCodeblock code={statesCode} />}
             />
           </div>
         </div>
@@ -131,7 +133,7 @@ export function InputDoc({ sourceCode }: InputDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock code={sourceCode} filename="input.tsx" />
+        <SimpleCodeblock code={sourceCode} filename="input.tsx" />
       </section>
     </div>
   );

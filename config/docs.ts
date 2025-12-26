@@ -12,6 +12,7 @@ export const docsConfig: NavSection[] = [
     items: [
       { title: "Button", href: "/docs/ui/button" },
       { title: "Card", href: "/docs/ui/card" },
+      { title: "Codeblock", href: "/docs/ui/codeblock" },
       { title: "Input", href: "/docs/ui/input" },
       { title: "Label", href: "/docs/ui/label" },
       { title: "Textarea", href: "/docs/ui/textarea" },

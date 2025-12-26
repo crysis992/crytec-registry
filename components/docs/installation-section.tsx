@@ -1,4 +1,4 @@
-import { CodeBlock } from "./code-block";
+import { SimpleCodeblock } from "@/components/docs/simple-codeblock";
 
 interface InstallationSectionProps {
   name: string;
@@ -22,7 +22,7 @@ export async function InstallationSection({
         <div className="space-y-4">
           <div>
             <h3 className="text-lg font-medium mb-2">CLI</h3>
-            <CodeBlock code={installCommand} language="bash" />
+            <SimpleCodeblock code={installCommand} language="bash" />
           </div>
 
           {dependencies && dependencies.length > 0 && (
@@ -31,7 +31,7 @@ export async function InstallationSection({
               <p className="text-sm text-[var(--muted-foreground)] mb-2">
                 This component requires the following npm packages:
               </p>
-              <CodeBlock
+              <SimpleCodeblock
                 code={`npm install ${dependencies.join(" ")}`}
                 language="bash"
               />

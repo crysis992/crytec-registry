@@ -7,6 +7,7 @@
       "WebFetch(domain:api.github.com)",
       "WebFetch(domain:api.githubusercontent.com)",
       "WebFetch(domain:www.diceui.com)",
+      "WebFetch(domain:shiki.style)",
       "Bash(npx tsc:*)"
     ]
   }
