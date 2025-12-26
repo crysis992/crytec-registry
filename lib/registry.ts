@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import type { Registry, RegistryItem } from "@/types/docs";
-import { siteConfig } from "@/config/site";
+import type { Registry, RegistryItem } from "@/docs/types";
+import { siteConfig } from "@/site";
 
 let registryCache: Registry | null = null;
 

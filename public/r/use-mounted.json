@@ -1,7 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "use-mounted",
-  "type": "registry:hook",
   "title": "useMounted",
   "description": "A hook that returns true if the component has mounted. Useful for SSR hydration.",
   "files": [
@@ -10,5 +9,6 @@
       "content": "import * as React from \"react\";\n\n/**\n * A hook that returns true if the component has mounted.\n * Useful for avoiding hydration mismatches in SSR.\n *\n * @example\n * ```tsx\n * function MyComponent() {\n *   const mounted = useMounted();\n *\n *   if (!mounted) {\n *     return <Skeleton />;\n *   }\n *\n *   return <ClientOnlyContent />;\n * }\n * ```\n */\nexport function useMounted() {\n  const [mounted, setMounted] = React.useState(false);\n\n  React.useEffect(() => {\n    setMounted(true);\n  }, []);\n\n  return mounted;\n}\n",
       "type": "registry:hook"
     }
-  ]
+  ],
+  "type": "registry:hook"
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/registry/new-york/ui/button";
+import { Button } from "@/registry/new-york/ui/shadcn/button";
 
 export default function NotFound() {
   return (

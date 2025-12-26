@@ -11,9 +11,9 @@
   },
   "aliases": {
     "components": "@/components",
-    "ui": "@/registry/new-york/ui",
+    "ui": "@/components/ui",
     "lib": "@/lib",
-    "hooks": "@/registry/new-york/hooks",
+    "hooks": "@/hooks",
     "utils": "@/lib/utils"
   },
   "iconLibrary": "lucide"
