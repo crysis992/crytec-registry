@@ -43,3 +43,29 @@ export function formatDate(
 export function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function normalizeProjectIconName(name: string | null | undefined): string | null {
+  if (!name) return null;
+
+  // lucide-react dynamic icon names are kebab-case
+  if (name.includes('-')) {
+    return name.toLowerCase();
+  }
+
+  // Support legacy stored PascalCase icon names (e.g. FolderKanban)
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
+export function formatProjectIconLabel(name: string): string {
+  const normalized = normalizeProjectIconName(name) ?? '';
+  if (!normalized) return '';
+
+  return normalized
+    .split('-')
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+} 
