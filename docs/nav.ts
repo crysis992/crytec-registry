@@ -10,24 +10,13 @@ export const docsConfig: NavSection[] = [
   {
     title: "Components",
     items: [
-      { title: "Button", href: "/ui/button" },
-      { title: "Card", href: "/ui/card" },
       { title: "Codeblock", href: "/ui/codeblock" },
-      { title: "Input", href: "/ui/input" },
-      { title: "Label", href: "/ui/label" },
-      { title: "Textarea", href: "/ui/textarea" },
     ],
   },
   {
     title: "Hooks",
     items: [
       { title: "useMounted", href: "/hooks/use-mounted" },
-    ],
-  },
-  {
-    title: "Library",
-    items: [
-      { title: "Utils", href: "/lib/utils" },
     ],
   },
   {

@@ -5,6 +5,8 @@ import { siteConfig } from "@/site";
 
 let registryCache: Registry | null = null;
 
+const DOC_ITEM_NAMES = new Set<string>(["codeblock", "use-mounted", "example-form"]);
+
 export function getRegistry(): Registry {
   if (registryCache) {
     return registryCache;
@@ -64,7 +66,9 @@ export function getComponentSource(filePath: string): string {
 
 export function getAllDocParams(): { type: string; name: string }[] {
   const items = getRegistryItems();
-  return items.map((item) => ({
+  return items
+    .filter((item) => DOC_ITEM_NAMES.has(item.name))
+    .map((item) => ({
     type: getUrlTypeFromRegistryType(item.type),
     name: item.name,
   }));

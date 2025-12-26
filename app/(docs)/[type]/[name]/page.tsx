@@ -7,26 +7,14 @@ import { getRegistryItem, getAllDocParams, getComponentSource } from "@/lib/regi
 import { siteConfig } from "@/site";
 
 // Content imports
-import { ButtonDoc } from "@/docs/content/ui/button";
-import { CardDoc } from "@/docs/content/ui/card";
 import { CodeblockDoc } from "@/docs/content/ui/codeblock";
-import { InputDoc } from "@/docs/content/ui/input";
-import { LabelDoc } from "@/docs/content/ui/label";
-import { TextareaDoc } from "@/docs/content/ui/textarea";
 import { UseMountedDoc } from "@/docs/content/hooks/use-mounted";
-import { UtilsDoc } from "@/docs/content/lib/utils";
 import { ExampleFormDoc } from "@/docs/content/blocks/example-form";
 
 // Map of content components
 const contentMap: Record<string, React.ComponentType<{ sourceCode: string }>> = {
-  button: ButtonDoc,
-  card: CardDoc,
   codeblock: CodeblockDoc,
-  input: InputDoc,
-  label: LabelDoc,
-  textarea: TextareaDoc,
   "use-mounted": UseMountedDoc,
-  utils: UtilsDoc,
   "example-form": ExampleFormDoc,
 };
 

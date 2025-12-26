@@ -17,6 +17,8 @@ import {
   CodeBlockSelectValue,
   type CodeBlockData,
 } from "@/registry/new-york/ui/custom/codeblock"
+import { PreviewTabs } from "@/docs/components/component-preview"
+import { SimpleCodeblock } from "@/docs/components/simple-codeblock"
 import { PropsTable } from "@/docs/components/props-table"
 import type { PropDefinition } from "@/docs/types"
 
@@ -131,6 +133,112 @@ export function Button({ children }: ButtonProps) {
   },
 ]
 
+const usageCode = `import {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockFiles,
+  CodeBlockFilename,
+  CodeBlockCopyButton,
+  CodeBlockBody,
+  CodeBlockItem,
+  CodeBlockContent,
+  type CodeBlockData,
+} from "@/components/ui/codeblock"
+
+const code: CodeBlockData[] = [
+  {
+    value: "typescript",
+    filename: "example.ts",
+    language: "ts",
+    code: "const greeting = \"Hello\"\nconsole.log(greeting)",
+  },
+]
+
+export function Example() {
+  return (
+    <CodeBlock data={code} defaultValue="typescript">
+      <CodeBlockHeader>
+        <CodeBlockFiles>
+          {(item) => (
+            <CodeBlockFilename key={item.value} value={item.value}>
+              {item.filename}
+            </CodeBlockFilename>
+          )}
+        </CodeBlockFiles>
+        <CodeBlockCopyButton />
+      </CodeBlockHeader>
+      <CodeBlockBody>
+        {(item) => (
+          <CodeBlockItem key={item.value} value={item.value}>
+            <CodeBlockContent />
+          </CodeBlockItem>
+        )}
+      </CodeBlockBody>
+    </CodeBlock>
+  )
+}`
+
+const multiFileTabsCode = `const files: CodeBlockData[] = [
+  { value: "app", filename: "App.tsx", language: "tsx", code: "..." },
+  { value: "button", filename: "Button.tsx", language: "tsx", code: "..." },
+]
+
+<CodeBlock data={files} defaultValue="app">
+  <CodeBlockHeader>
+    <CodeBlockFiles>
+      {(item) => (
+        <CodeBlockFilename key={item.value} value={item.value}>
+          {item.filename}
+        </CodeBlockFilename>
+      )}
+    </CodeBlockFiles>
+    <CodeBlockCopyButton />
+  </CodeBlockHeader>
+  <CodeBlockBody>
+    {(item) => (
+      <CodeBlockItem key={item.value} value={item.value}>
+        <CodeBlockContent />
+      </CodeBlockItem>
+    )}
+  </CodeBlockBody>
+</CodeBlock>`
+
+const dropdownSelectCode = `<CodeBlock data={files} defaultValue="app">
+  <CodeBlockHeader>
+    <CodeBlockSelect>
+      <CodeBlockSelectTrigger>
+        <CodeBlockSelectValue placeholder="Select file" />
+      </CodeBlockSelectTrigger>
+      <CodeBlockSelectContent>
+        {(item) => (
+          <CodeBlockSelectItem key={item.value} value={item.value}>
+            {item.filename}
+          </CodeBlockSelectItem>
+        )}
+      </CodeBlockSelectContent>
+    </CodeBlockSelect>
+    <CodeBlockCopyButton />
+  </CodeBlockHeader>
+  <CodeBlockBody>
+    {(item) => (
+      <CodeBlockItem key={item.value} value={item.value}>
+        <CodeBlockContent />
+      </CodeBlockItem>
+    )}
+  </CodeBlockBody>
+</CodeBlock>`
+
+const lineNumbersCode = `<CodeBlock data={code} defaultValue="typescript" showLineNumbers>
+  {/* header + body same as above */}
+</CodeBlock>`
+
+const footerCode = `<CodeBlock data={code} defaultValue="typescript">
+  {/* header + body same as above */}
+  <CodeBlockFooter>
+    TypeScript example showing a simple greeting
+  </CodeBlockFooter>
+</CodeBlock>`
+
 interface CodeblockDocProps {
   sourceCode: string
 }
@@ -142,123 +250,21 @@ export function CodeblockDoc({ sourceCode }: CodeblockDocProps) {
         <h2 id="usage" className="text-2xl font-semibold mb-4">
           Usage
         </h2>
-        <p className="text-[var(--muted-foreground)] mb-4">
-          CodeBlock is a compound component for displaying syntax-highlighted code.
-          It supports multiple files, tab navigation, copy functionality, and custom themes.
-        </p>
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-medium">Basic Usage</h3>
-          <CodeBlock data={basicCode} defaultValue="typescript">
-            <CodeBlockHeader>
-              <CodeBlockFiles>
-                {(item) => (
-                  <CodeBlockFilename key={item.value} value={item.value}>
-                    {item.filename}
-                  </CodeBlockFilename>
-                )}
-              </CodeBlockFiles>
-              <CodeBlockCopyButton />
-            </CodeBlockHeader>
-            <CodeBlockBody>
-              {(item) => (
-                <CodeBlockItem key={item.value} value={item.value}>
-                  <CodeBlockContent />
-                </CodeBlockItem>
-              )}
-            </CodeBlockBody>
-          </CodeBlock>
+        <div className="space-y-3">
+          <p className="text-[var(--muted-foreground)]">
+            CodeBlock is a compound component for rendering syntax-highlighted code
+            with optional file navigation and a copy button.
+          </p>
+          <p className="text-[var(--muted-foreground)]">
+            You provide a <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">data</code> array.
+            Each item must have a unique <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">value</code>.
+            Use <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">filename</code> for display,
+            and optionally set <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">language</code> to control Shiki highlighting.
+          </p>
         </div>
-      </section>
 
-      <section>
-        <h2 id="examples" className="text-2xl font-semibold mb-4">
-          Examples
-        </h2>
-
-        <div className="space-y-8">
-          <div>
-            <h3 className="text-lg font-medium mb-3">Multi-file with Tabs</h3>
-            <p className="text-[var(--muted-foreground)] mb-4">
-              Display multiple files with tab navigation.
-            </p>
-            <CodeBlock data={multiFileCode} defaultValue="app">
-              <CodeBlockHeader>
-                <CodeBlockFiles>
-                  {(item) => (
-                    <CodeBlockFilename key={item.value} value={item.value}>
-                      {item.filename}
-                    </CodeBlockFilename>
-                  )}
-                </CodeBlockFiles>
-                <CodeBlockCopyButton />
-              </CodeBlockHeader>
-              <CodeBlockBody>
-                {(item) => (
-                  <CodeBlockItem key={item.value} value={item.value}>
-                    <CodeBlockContent />
-                  </CodeBlockItem>
-                )}
-              </CodeBlockBody>
-            </CodeBlock>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-medium mb-3">With Line Numbers</h3>
-            <CodeBlock data={basicCode} defaultValue="typescript" showLineNumbers>
-              <CodeBlockHeader>
-                <CodeBlockFiles>
-                  {(item) => (
-                    <CodeBlockFilename key={item.value} value={item.value}>
-                      {item.filename}
-                    </CodeBlockFilename>
-                  )}
-                </CodeBlockFiles>
-                <CodeBlockCopyButton />
-              </CodeBlockHeader>
-              <CodeBlockBody>
-                {(item) => (
-                  <CodeBlockItem key={item.value} value={item.value}>
-                    <CodeBlockContent />
-                  </CodeBlockItem>
-                )}
-              </CodeBlockBody>
-            </CodeBlock>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-medium mb-3">With Dropdown Select</h3>
-            <p className="text-[var(--muted-foreground)] mb-4">
-              Use the select components for a dropdown file picker.
-            </p>
-            <CodeBlock data={multiFileCode} defaultValue="app">
-              <CodeBlockHeader>
-                <CodeBlockSelect>
-                  <CodeBlockSelectTrigger>
-                    <CodeBlockSelectValue placeholder="Select file" />
-                  </CodeBlockSelectTrigger>
-                  <CodeBlockSelectContent>
-                    {(item) => (
-                      <CodeBlockSelectItem key={item.value} value={item.value}>
-                        {item.filename}
-                      </CodeBlockSelectItem>
-                    )}
-                  </CodeBlockSelectContent>
-                </CodeBlockSelect>
-                <CodeBlockCopyButton />
-              </CodeBlockHeader>
-              <CodeBlockBody>
-                {(item) => (
-                  <CodeBlockItem key={item.value} value={item.value}>
-                    <CodeBlockContent />
-                  </CodeBlockItem>
-                )}
-              </CodeBlockBody>
-            </CodeBlock>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-medium mb-3">With Footer</h3>
+        <PreviewTabs
+          preview={
             <CodeBlock data={basicCode} defaultValue="typescript">
               <CodeBlockHeader>
                 <CodeBlockFiles>
@@ -277,10 +283,147 @@ export function CodeblockDoc({ sourceCode }: CodeblockDocProps) {
                   </CodeBlockItem>
                 )}
               </CodeBlockBody>
-              <CodeBlockFooter>
-                TypeScript example showing a simple greeting
-              </CodeBlockFooter>
             </CodeBlock>
+          }
+          codeBlock={<SimpleCodeblock code={usageCode} language="tsx" />}
+        />
+      </section>
+
+      <section>
+        <h2 id="examples" className="text-2xl font-semibold mb-4">
+          Examples
+        </h2>
+
+        <div className="space-y-8">
+          <div>
+            <h3 className="text-lg font-medium mb-3">Multi-file with Tabs</h3>
+            <p className="text-[var(--muted-foreground)] mb-4">
+              Display multiple files with tab navigation.
+            </p>
+            <PreviewTabs
+              preview={
+                <CodeBlock data={multiFileCode} defaultValue="app">
+                  <CodeBlockHeader>
+                    <CodeBlockFiles>
+                      {(item) => (
+                        <CodeBlockFilename key={item.value} value={item.value}>
+                          {item.filename}
+                        </CodeBlockFilename>
+                      )}
+                    </CodeBlockFiles>
+                    <CodeBlockCopyButton />
+                  </CodeBlockHeader>
+                  <CodeBlockBody>
+                    {(item) => (
+                      <CodeBlockItem key={item.value} value={item.value}>
+                        <CodeBlockContent />
+                      </CodeBlockItem>
+                    )}
+                  </CodeBlockBody>
+                </CodeBlock>
+              }
+              codeBlock={<SimpleCodeblock code={multiFileTabsCode} language="tsx" />}
+            />
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium mb-3">With Line Numbers</h3>
+            <p className="text-[var(--muted-foreground)] mb-4">
+              Enable line numbers across all items with the
+              <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm ml-1">showLineNumbers</code> prop.
+            </p>
+            <PreviewTabs
+              preview={
+                <CodeBlock data={basicCode} defaultValue="typescript" showLineNumbers>
+                  <CodeBlockHeader>
+                    <CodeBlockFiles>
+                      {(item) => (
+                        <CodeBlockFilename key={item.value} value={item.value}>
+                          {item.filename}
+                        </CodeBlockFilename>
+                      )}
+                    </CodeBlockFiles>
+                    <CodeBlockCopyButton />
+                  </CodeBlockHeader>
+                  <CodeBlockBody>
+                    {(item) => (
+                      <CodeBlockItem key={item.value} value={item.value}>
+                        <CodeBlockContent />
+                      </CodeBlockItem>
+                    )}
+                  </CodeBlockBody>
+                </CodeBlock>
+              }
+              codeBlock={<SimpleCodeblock code={lineNumbersCode} language="tsx" />}
+            />
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium mb-3">With Dropdown Select</h3>
+            <p className="text-[var(--muted-foreground)] mb-4">
+              Use the select sub-components for a dropdown file picker (useful for
+              narrow layouts when tabs would overflow).
+            </p>
+            <PreviewTabs
+              preview={
+                <CodeBlock data={multiFileCode} defaultValue="app">
+                  <CodeBlockHeader>
+                    <CodeBlockSelect>
+                      <CodeBlockSelectTrigger>
+                        <CodeBlockSelectValue placeholder="Select file" />
+                      </CodeBlockSelectTrigger>
+                      <CodeBlockSelectContent>
+                        {(item) => (
+                          <CodeBlockSelectItem key={item.value} value={item.value}>
+                            {item.filename}
+                          </CodeBlockSelectItem>
+                        )}
+                      </CodeBlockSelectContent>
+                    </CodeBlockSelect>
+                    <CodeBlockCopyButton />
+                  </CodeBlockHeader>
+                  <CodeBlockBody>
+                    {(item) => (
+                      <CodeBlockItem key={item.value} value={item.value}>
+                        <CodeBlockContent />
+                      </CodeBlockItem>
+                    )}
+                  </CodeBlockBody>
+                </CodeBlock>
+              }
+              codeBlock={<SimpleCodeblock code={dropdownSelectCode} language="tsx" />}
+            />
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium mb-3">With Footer</h3>
+            <PreviewTabs
+              preview={
+                <CodeBlock data={basicCode} defaultValue="typescript">
+                  <CodeBlockHeader>
+                    <CodeBlockFiles>
+                      {(item) => (
+                        <CodeBlockFilename key={item.value} value={item.value}>
+                          {item.filename}
+                        </CodeBlockFilename>
+                      )}
+                    </CodeBlockFiles>
+                    <CodeBlockCopyButton />
+                  </CodeBlockHeader>
+                  <CodeBlockBody>
+                    {(item) => (
+                      <CodeBlockItem key={item.value} value={item.value}>
+                        <CodeBlockContent />
+                      </CodeBlockItem>
+                    )}
+                  </CodeBlockBody>
+                  <CodeBlockFooter>
+                    TypeScript example showing a simple greeting
+                  </CodeBlockFooter>
+                </CodeBlock>
+              }
+              codeBlock={<SimpleCodeblock code={footerCode} language="tsx" />}
+            />
           </div>
         </div>
       </section>
@@ -303,47 +446,42 @@ export function CodeblockDoc({ sourceCode }: CodeblockDocProps) {
 
           <div>
             <h3 className="text-lg font-medium mb-3">Sub-components</h3>
-            <ul className="list-disc list-inside space-y-2 text-[var(--muted-foreground)]">
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockHeader</code> - Header container
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockFiles</code> - Tab container (render prop)
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockFilename</code> - Individual tab button
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockSelect</code> - Dropdown wrapper
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockSelectTrigger</code> - Dropdown trigger
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockSelectValue</code> - Selected value display
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockSelectContent</code> - Dropdown content (render prop)
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockSelectItem</code> - Dropdown item
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockCopyButton</code> - Copy to clipboard button
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockBody</code> - Body container (render prop)
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockItem</code> - Individual code panel
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockContent</code> - Highlighted code display
-              </li>
-              <li>
-                <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockFooter</code> - Footer container
-              </li>
-            </ul>
+            <div className="space-y-3 text-[var(--muted-foreground)]">
+              <p>
+                CodeBlock is designed as a compound component so you can choose the
+                UI that fits your page (tabs, dropdown, footer, etc.).
+              </p>
+              <ul className="list-disc list-inside space-y-2">
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockHeader</code> wraps navigation and actions.
+                </li>
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockFiles</code> +
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded ml-1">CodeBlockFilename</code> render tab navigation.
+                </li>
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockSelect</code> + related
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded ml-1">CodeBlockSelect*</code> components render a dropdown picker.
+                </li>
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockCopyButton</code> copies the active file.
+                </li>
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockBody</code> maps items →
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded ml-1">CodeBlockItem</code> panels.
+                </li>
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockContent</code> renders the highlighted HTML.
+                </li>
+                <li>
+                  <code className="bg-[var(--muted)] px-1.5 py-0.5 rounded">CodeBlockFooter</code> adds optional descriptive text.
+                </li>
+              </ul>
+              <p>
+                Most sub-components accept standard DOM props for their underlying
+                element. For exact types and slots, see the source below.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -352,28 +490,7 @@ export function CodeblockDoc({ sourceCode }: CodeblockDocProps) {
         <h2 id="source" className="text-2xl font-semibold mb-4">
           Source Code
         </h2>
-        <CodeBlock
-          data={[{ value: "source", filename: "codeblock.tsx", code: sourceCode, language: "tsx" }]}
-          defaultValue="source"
-        >
-          <CodeBlockHeader>
-            <CodeBlockFiles>
-              {(item) => (
-                <CodeBlockFilename key={item.value} value={item.value}>
-                  {item.filename}
-                </CodeBlockFilename>
-              )}
-            </CodeBlockFiles>
-            <CodeBlockCopyButton />
-          </CodeBlockHeader>
-          <CodeBlockBody>
-            {(item) => (
-              <CodeBlockItem key={item.value} value={item.value}>
-                <CodeBlockContent />
-              </CodeBlockItem>
-            )}
-          </CodeBlockBody>
-        </CodeBlock>
+        <SimpleCodeblock code={sourceCode} filename="codeblock.tsx" language="tsx" />
       </section>
     </div>
   )
