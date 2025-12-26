@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "utils",
+  "type": "registry:lib",
+  "title": "Utils",
+  "description": "Utility functions including cn() for class name merging.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/lib/utils.ts",
+      "content": "import { type ClassValue, clsx } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/**\n * Combines class names with Tailwind CSS conflict resolution.\n *\n * @example\n * ```tsx\n * cn(\"px-2 py-1\", \"px-4\") // returns \"py-1 px-4\"\n * cn(\"bg-red-500\", condition && \"bg-blue-500\") // conditional classes\n * ```\n */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n\n/**\n * Formats a date to a localized string.\n *\n * @example\n * ```tsx\n * formatDate(new Date()) // \"December 26, 2024\"\n * formatDate(new Date(), \"short\") // \"12/26/24\"\n * ```\n */\nexport function formatDate(\n  date: Date,\n  style: \"long\" | \"short\" = \"long\"\n): string {\n  return new Intl.DateTimeFormat(\"en-US\", {\n    dateStyle: style,\n  }).format(date);\n}\n\n/**\n * Delays execution for a specified number of milliseconds.\n *\n * @example\n * ```tsx\n * await sleep(1000); // wait 1 second\n * ```\n */\nexport function sleep(ms: number): Promise<void> {\n  return new Promise((resolve) => setTimeout(resolve, ms));\n}\n",
+      "type": "registry:lib"
+    }
+  ]
+}

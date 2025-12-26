@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:api.githubusercontent.com)",
+      "WebFetch(domain:www.diceui.com)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}
