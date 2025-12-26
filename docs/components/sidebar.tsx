@@ -3,23 +3,31 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { docsConfig } from "@/docs/nav";
+import type { NavSection } from "@/docs/types";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
-export function Sidebar() {
+interface SidebarProps {
+  docsConfig: NavSection[];
+}
+
+export function Sidebar({ docsConfig }: SidebarProps) {
   const pathname = usePathname();
 
   return (
     <aside className="hidden lg:block w-64 shrink-0">
       <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto py-6 pr-4">
-        <SidebarContent pathname={pathname} />
+        <SidebarContent pathname={pathname} docsConfig={docsConfig} />
       </div>
     </aside>
   );
 }
 
-export function MobileSidebar() {
+interface MobileSidebarProps {
+  docsConfig: NavSection[];
+}
+
+export function MobileSidebar({ docsConfig }: MobileSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
 
@@ -54,7 +62,7 @@ export function MobileSidebar() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <SidebarContent pathname={pathname} />
+            <SidebarContent pathname={pathname} docsConfig={docsConfig} />
           </div>
         </>
       )}
@@ -62,7 +70,12 @@ export function MobileSidebar() {
   );
 }
 
-function SidebarContent({ pathname }: { pathname: string }) {
+interface SidebarContentProps {
+  pathname: string;
+  docsConfig: NavSection[];
+}
+
+function SidebarContent({ pathname, docsConfig }: SidebarContentProps) {
   return (
     <nav className="space-y-6">
       {docsConfig.map((section) => (

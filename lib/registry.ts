@@ -1,11 +1,11 @@
+import "server-only";
+
 import fs from "fs";
 import path from "path";
 import type { Registry, RegistryItem } from "@/docs/types";
 import { siteConfig } from "@/site";
 
 let registryCache: Registry | null = null;
-
-const DOC_ITEM_NAMES = new Set<string>(["codeblock", "use-mounted", "example-form"]);
 
 export function getRegistry(): Registry {
   if (registryCache) {
@@ -64,12 +64,65 @@ export function getComponentSource(filePath: string): string {
   }
 }
 
+/**
+ * Check if a component has documentation by checking if the doc file exists
+ */
+export function hasDocumentation(name: string, type: string): boolean {
+  const urlType = getUrlTypeFromRegistryType(type);
+  const docPath = path.join(
+    process.cwd(),
+    "docs/content",
+    urlType,
+    `${name}.tsx`
+  );
+  return fs.existsSync(docPath);
+}
+
+/**
+ * Get the path to a documentation component file
+ */
+export function getDocComponentPath(name: string, type: string): string {
+  const urlType = getUrlTypeFromRegistryType(type);
+  return `docs/content/${urlType}/${name}.tsx`;
+}
+
+/**
+ * Get all registry items that have documentation
+ */
+export function getRegistryItemsWithDocs(): RegistryItem[] {
+  return getRegistryItems().filter((item) =>
+    hasDocumentation(item.name, item.type)
+  );
+}
+
+/**
+ * Get all static params for documentation pages (only items with docs)
+ */
 export function getAllDocParams(): { type: string; name: string }[] {
   const items = getRegistryItems();
   return items
-    .filter((item) => DOC_ITEM_NAMES.has(item.name))
+    .filter((item) => hasDocumentation(item.name, item.type))
     .map((item) => ({
-    type: getUrlTypeFromRegistryType(item.type),
-    name: item.name,
+      type: getUrlTypeFromRegistryType(item.type),
+      name: item.name,
+    }));
+}
+
+/**
+ * Get registry item with documentation status
+ */
+export interface RegistryItemWithStatus extends RegistryItem {
+  hasDocs: boolean;
+  urlType: string;
+}
+
+/**
+ * Get all registry items with their documentation status
+ */
+export function getRegistryItemsWithStatus(): RegistryItemWithStatus[] {
+  return getRegistryItems().map((item) => ({
+    ...item,
+    hasDocs: hasDocumentation(item.name, item.type),
+    urlType: getUrlTypeFromRegistryType(item.type),
   }));
 }

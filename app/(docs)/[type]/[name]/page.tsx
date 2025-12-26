@@ -3,20 +3,15 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/docs/components/page-header";
 import { InstallationSection } from "@/docs/components/installation-section";
 import { TableOfContents, defaultTocItems } from "@/docs/components/toc";
-import { getRegistryItem, getAllDocParams, getComponentSource } from "@/lib/registry";
+import { ComingSoonDoc } from "@/docs/components/coming-soon";
+import {
+  getRegistryItem,
+  getComponentSource,
+  hasDocumentation,
+  getUrlTypeFromRegistryType,
+} from "@/lib/registry";
 import { siteConfig } from "@/site";
-
-// Content imports
-import { CodeblockDoc } from "@/docs/content/ui/codeblock";
-import { UseMountedDoc } from "@/docs/content/hooks/use-mounted";
-import { ExampleFormDoc } from "@/docs/content/blocks/example-form";
-
-// Map of content components
-const contentMap: Record<string, React.ComponentType<{ sourceCode: string }>> = {
-  codeblock: CodeblockDoc,
-  "use-mounted": UseMountedDoc,
-  "example-form": ExampleFormDoc,
-};
+import type { DocComponent } from "@/docs/types";
 
 interface PageProps {
   params: Promise<{
@@ -26,7 +21,14 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return getAllDocParams();
+  // Generate params for all registry items (not just those with docs)
+  // This allows components without docs to show the "Coming Soon" page
+  const { getRegistryItems, getUrlTypeFromRegistryType } = await import("@/lib/registry");
+  const items = getRegistryItems();
+  return items.map((item) => ({
+    type: getUrlTypeFromRegistryType(item.type),
+    name: item.name,
+  }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -43,18 +45,70 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+/**
+ * Convert kebab-case to PascalCase
+ */
+function toPascalCase(str: string): string {
+  return str
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join("");
+}
+
+/**
+ * Dynamically import a documentation component
+ */
+async function getDocComponent(
+  name: string,
+  type: string
+): Promise<DocComponent | null> {
+  // Check if documentation exists
+  if (!hasDocumentation(name, type)) {
+    return null;
+  }
+
+  try {
+    const urlType = getUrlTypeFromRegistryType(type);
+    const module = await import(`@/docs/content/${urlType}/${name}`);
+    
+    // Try common export name patterns:
+    // 1. PascalCase + "Doc" (e.g., CodeblockDoc, UseMountedDoc)
+    // 2. default export
+    const pascalName = toPascalCase(name);
+    const Component =
+      module[`${pascalName}Doc`] ||
+      module.default;
+    
+    if (!Component) {
+      console.warn(`No valid export found in docs/content/${urlType}/${name}.tsx`);
+      return null;
+    }
+    
+    return Component as DocComponent;
+  } catch (error) {
+    console.error(`Failed to load doc component for ${name}:`, error);
+    return null;
+  }
+}
+
 export default async function DocPage({ params }: PageProps) {
-  const { name } = await params;
+  const { name, type } = await params;
   const item = getRegistryItem(name);
 
   if (!item) {
     notFound();
   }
 
-  const ContentComponent = contentMap[name];
+  // Try to load the documentation component dynamically
+  let ContentComponent: DocComponent | null = null;
+  
+  if (hasDocumentation(name, item.type)) {
+    ContentComponent = await getDocComponent(name, item.type);
+  }
 
+  // Fallback to Coming Soon if no documentation component found
   if (!ContentComponent) {
-    notFound();
+    ContentComponent = ComingSoonDoc;
   }
 
   // Get source code for the component

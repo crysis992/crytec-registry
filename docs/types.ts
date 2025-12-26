@@ -62,3 +62,15 @@ export interface Registry {
   homepage: string;
   items: RegistryItem[];
 }
+
+/**
+ * Props that all documentation components must accept
+ */
+export interface DocComponentProps {
+  sourceCode: string;
+}
+
+/**
+ * Type for documentation components
+ */
+export type DocComponent = React.ComponentType<DocComponentProps>;

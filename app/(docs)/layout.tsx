@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { Sidebar, MobileSidebar } from "@/docs/components/sidebar";
 import { siteConfig } from "@/site";
+import { getDocsConfig } from "@/docs/nav";
 
 export default function DocsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const docsConfig = getDocsConfig();
+
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -25,14 +28,14 @@ export default function DocsLayout({
               </Link>
             </nav>
           </div>
-          <MobileSidebar />
+          <MobileSidebar docsConfig={docsConfig} />
         </div>
       </header>
 
       {/* Main Content */}
       <div className="container mx-auto px-4">
         <div className="flex gap-6">
-          <Sidebar />
+          <Sidebar docsConfig={docsConfig} />
           <main className="flex-1 py-6 lg:py-8 min-w-0">{children}</main>
         </div>
       </div>

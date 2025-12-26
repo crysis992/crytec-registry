@@ -1,9 +1,36 @@
 import Link from "next/link";
-import { docsConfig } from "@/docs/nav";
+import { getDocsConfig } from "@/docs/nav";
 import { siteConfig } from "@/site";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/registry/new-york/ui/shadcn/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/registry/new-york/ui/shadcn/card";
+import { getRegistryItemsWithStatus } from "@/lib/registry";
 
 export default function DocsPage() {
+  const allItems = getRegistryItemsWithStatus();
+  const itemsByType = allItems.reduce(
+    (acc, item) => {
+      if (!acc[item.urlType]) {
+        acc[item.urlType] = [];
+      }
+      acc[item.urlType].push(item);
+      return acc;
+    },
+    {} as Record<string, typeof allItems>
+  );
+
+  const typeLabels: Record<string, string> = {
+    ui: "Components",
+    hooks: "Hooks",
+    lib: "Library",
+    blocks: "Blocks",
+  };
+
+  const typeOrder = ["ui", "hooks", "lib", "blocks"];
+
   return (
     <div className="space-y-8">
       <div className="space-y-4">
@@ -11,6 +38,9 @@ export default function DocsPage() {
         <p className="text-lg text-[var(--muted-foreground)] max-w-2xl">
           Welcome to the {siteConfig.name} documentation. Browse our collection of
           components, hooks, and utilities for building your next project.
+        </p>
+        <p className="text-sm text-[var(--muted-foreground)]">
+          {allItems.length} total items • {allItems.filter((i) => i.hasDocs).length} with documentation
         </p>
       </div>
 
@@ -25,25 +55,43 @@ export default function DocsPage() {
       </div>
 
       <div className="space-y-6">
-        {docsConfig.slice(1).map((section) => (
-          <div key={section.title}>
-            <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {section.items.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <Card className="h-full hover:border-[var(--primary)] transition-colors">
-                    <CardHeader>
-                      <CardTitle className="text-lg">{item.title}</CardTitle>
-                      <CardDescription>
-                        View documentation for {item.title.toLowerCase()}
-                      </CardDescription>
-                    </CardHeader>
-                  </Card>
-                </Link>
-              ))}
+        {typeOrder.map((type) => {
+          const items = itemsByType[type] || [];
+          if (items.length === 0) return null;
+
+          return (
+            <div key={type}>
+              <h2 className="text-2xl font-semibold mb-4">
+                {typeLabels[type] || type}
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={`/${item.urlType}/${item.name}`}
+                    className="block"
+                  >
+                    <Card className="h-full hover:border-[var(--primary)] transition-colors">
+                      <CardHeader>
+                        <div className="flex items-start justify-between gap-2">
+                          <CardTitle className="text-lg">{item.title}</CardTitle>
+                          {!item.hasDocs && (
+                            <span className="text-xs px-2 py-1 rounded bg-[var(--muted)] text-[var(--muted-foreground)] whitespace-nowrap">
+                              Coming Soon
+                            </span>
+                          )}
+                        </div>
+                        <CardDescription className="line-clamp-2">
+                          {item.description}
+                        </CardDescription>
+                      </CardHeader>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
