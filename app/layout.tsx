@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Crytec Registry',
+  title: 'Crytec Component Registry',
   description: 'A custom shadcn/ui component registry',
 };
 
