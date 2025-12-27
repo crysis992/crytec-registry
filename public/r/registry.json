@@ -4,73 +4,6 @@
   "homepage": "https://registry.crytec.net",
   "items": [
     {
-      "name": "button",
-      "type": "registry:ui",
-      "title": "Button",
-      "description": "A button component with multiple variants and sizes.",
-      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/shadcn/button.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "input",
-      "type": "registry:ui",
-      "title": "Input",
-      "description": "A form input component with focus states and validation support.",
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/shadcn/input.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "card",
-      "type": "registry:ui",
-      "title": "Card",
-      "description": "A card container with header, content, and footer slots.",
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/shadcn/card.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "label",
-      "type": "registry:ui",
-      "title": "Label",
-      "description": "An accessible label component using Radix UI.",
-      "dependencies": ["@radix-ui/react-label", "class-variance-authority"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/shadcn/label.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "textarea",
-      "type": "registry:ui",
-      "title": "Textarea",
-      "description": "A multi-line text input component.",
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/shadcn/textarea.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "codeblock",
       "type": "registry:ui",
       "title": "CodeBlock",
@@ -80,6 +13,34 @@
       "files": [
         {
           "path": "registry/new-york/ui/custom/codeblock.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "comparison",
+      "type": "registry:ui",
+      "title": "Comparison",
+      "description": "An interactive image comparison component with hover and drag modes, perfect for showcasing before/after images.",
+      "dependencies": ["motion", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/new-york/ui/custom/comparison.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "iconpicker",
+      "type": "registry:ui",
+      "title": "IconPicker",
+      "description": "A compound component for selecting icons from Lucide React with search, preview, and optimized rendering.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "dialog", "input", "utils"],
+      "files": [
+        {
+          "path": "registry/new-york/ui/custom/iconpicker.tsx",
           "type": "registry:ui"
         }
       ]

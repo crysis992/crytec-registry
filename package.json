@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "rimraf public/r && npm run registry:build && next build",
     "start": "next start",
     "lint": "pnpm biome lint --diagnostic-level=warn",
     "format": "pnpm biome check --write",
@@ -38,6 +38,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "rimraf": "^6.1.2",
     "shadcn": "^3.6.2",
     "tailwindcss": "^4",
     "typescript": "^5"

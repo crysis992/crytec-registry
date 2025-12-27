@@ -6,7 +6,7 @@
   "files": [
     {
       "path": "registry/new-york/hooks/use-mounted.ts",
-      "content": "import * as React from \"react\";\n\n/**\n * A hook that returns true if the component has mounted.\n * Useful for avoiding hydration mismatches in SSR.\n *\n * @example\n * ```tsx\n * function MyComponent() {\n *   const mounted = useMounted();\n *\n *   if (!mounted) {\n *     return <Skeleton />;\n *   }\n *\n *   return <ClientOnlyContent />;\n * }\n * ```\n */\nexport function useMounted() {\n  const [mounted, setMounted] = React.useState(false);\n\n  React.useEffect(() => {\n    setMounted(true);\n  }, []);\n\n  return mounted;\n}\n",
+      "content": "import * as React from 'react';\r\n\r\n/**\r\n * A hook that returns true if the component has mounted.\r\n * Useful for avoiding hydration mismatches in SSR.\r\n *\r\n * @example\r\n * ```tsx\r\n * function MyComponent() {\r\n *   const mounted = useMounted();\r\n *\r\n *   if (!mounted) {\r\n *     return <Skeleton />;\r\n *   }\r\n *\r\n *   return <ClientOnlyContent />;\r\n * }\r\n * ```\r\n */\r\nexport function useMounted() {\r\n  const [mounted, setMounted] = React.useState(false);\r\n\r\n  React.useEffect(() => {\r\n    setMounted(true);\r\n  }, []);\r\n\r\n  return mounted;\r\n}\r\n",
       "type": "registry:hook"
     }
   ],
