@@ -122,7 +122,7 @@ After implementation:
 - Ensure responsive behavior across breakpoints
 - Test theme variable compatibility (light/dark modes)
 - Confirm accessibility attributes are present
-- Run `pnpm-check all` to verify no errors in edited files
+- Run `npm run check-all` to verify no errors in edited files
 
 ## Decision Framework
 

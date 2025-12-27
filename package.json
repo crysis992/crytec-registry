@@ -6,17 +6,18 @@
     "dev": "next dev --turbopack",
     "build": "rimraf public/r && npm run registry:build && next build",
     "start": "next start",
-    "lint": "pnpm biome lint --diagnostic-level=warn",
-    "format": "pnpm biome check --write",
-    "update": "pnpm dlx taze major --interactive --install",
+    "lint": "npm biome lint --diagnostic-level=warn",
+    "format": "npx biome check --write",
+    "update": "npm dlx taze major --interactive --install",
     "check-types": "tsc --noEmit --pretty",
-    "check-all": "pnpm run format && pnpm run lint && pnpm run check-types",
-    "registry:build": "shadcn build"
+    "check-all": "npm run format && npm run lint && npm run check-types",
+    "registry:build": "rimraf public/r && shadcn build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

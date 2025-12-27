@@ -1,13 +1,12 @@
 'use client';
 
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@components/dialog';
+import { Input } from '@components/input';
 import { FolderKanban, Search } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { useMounted } from '../../hooks/use-mounted';
-import { formatProjectIconLabel, normalizeProjectIconName } from '../../lib/shadcn/utils';
 import { Button } from '../shadcn/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../shadcn/dialog';
-import { Input } from '../shadcn/input';
 
 interface IconPickerContextValue {
   value: string;
@@ -38,6 +37,32 @@ interface IconPickerContextValue {
 }
 
 const IconPickerContext = React.createContext<IconPickerContextValue | null>(null);
+
+export function normalizeProjectIconName(name: string | null | undefined): string | null {
+  if (!name) return null;
+
+  // lucide-react dynamic icon names are kebab-case
+  if (name.includes('-')) {
+    return name.toLowerCase();
+  }
+
+  // Support legacy stored PascalCase icon names (e.g. FolderKanban)
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
+export function formatProjectIconLabel(name: string): string {
+  const normalized = normalizeProjectIconName(name) ?? '';
+  if (!normalized) return '';
+
+  return normalized
+    .split('-')
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
 
 function useIconPicker() {
   const context = React.useContext(IconPickerContext);

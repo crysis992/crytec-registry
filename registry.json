@@ -46,6 +46,20 @@
       ]
     },
     {
+      "name": "colorpicker",
+      "type": "registry:ui",
+      "title": "ColorPicker",
+      "description": "A customizable color picker component with support for hex, rgb, and hsl formats, eye dropper, and preset colors.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "input", "popover", "utils"],
+      "files": [
+        {
+          "path": "registry/new-york/ui/custom/colorpicker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

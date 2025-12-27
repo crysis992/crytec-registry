@@ -23,4 +23,4 @@ This document provides comprehensive instructions for AI agents working on this 
 * ALWAYS prefer editing an existing file to creating a new one.
 * NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
 * Always prefer Next.js 16 and React 19 Features with Node 25.
-* Always run pnpm-check-all after task completion to verify your changes, fix reported errors in edited files.
+* Always run 'npm run check-all' after task completion to verify your changes, fix reported errors in edited files.
