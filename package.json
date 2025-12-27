@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "rimraf public/r && npm run registry:build && next build",
     "start": "next start",
-    "lint": "npm biome lint --diagnostic-level=warn",
+    "lint": "npx biome lint --diagnostic-level=warn",
     "format": "npx biome check --write",
     "update": "npm dlx taze major --interactive --install",
     "check-types": "tsc --noEmit --pretty",
