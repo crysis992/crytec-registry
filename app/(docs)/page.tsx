@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getRegistryItemsWithStatus } from '@/lib/registry';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/registry/new-york/ui/shadcn/card';
-import { siteConfig } from '@/site';
 
 export default function DocsPage() {
   const allItems = getRegistryItemsWithStatus();
@@ -30,7 +29,7 @@ export default function DocsPage() {
       <div className="space-y-4">
         <h1 className="text-4xl font-bold tracking-tight">Documentation</h1>
         <p className="text-lg text-[var(--muted-foreground)] max-w-2xl">
-          Welcome to the {siteConfig.name} documentation. Browse our collection of components, hooks, and utilities for building your next
+          Welcome to the Crytec Registry documentation. Browse our collection of components, hooks, and utilities for building your next
           project.
         </p>
         <p className="text-sm text-[var(--muted-foreground)]">
@@ -42,7 +41,7 @@ export default function DocsPage() {
         <h2 className="text-2xl font-semibold">Installation</h2>
         <p className="text-[var(--muted-foreground)]">Install components directly into your project using the shadcn CLI:</p>
         <code className="block px-4 py-3 bg-[var(--muted)] rounded-lg text-sm font-mono">
-          npx shadcn@latest add {siteConfig.url}/r/[component].json
+          npx shadcn@latest add https://registry.crytec.net/r/[component].json
         </code>
       </div>
 

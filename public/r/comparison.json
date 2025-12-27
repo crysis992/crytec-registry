@@ -3,13 +3,8 @@
   "name": "comparison",
   "title": "Comparison",
   "description": "An interactive image comparison component with hover and drag modes, perfect for showcasing before/after images.",
-  "dependencies": [
-    "motion",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["motion", "lucide-react"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/new-york/ui/custom/comparison.tsx",

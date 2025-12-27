@@ -3,7 +3,6 @@ import 'server-only';
 import fs from 'fs';
 import path from 'path';
 import type { Registry, RegistryItem } from '@/docs/types';
-import { siteConfig } from '@/site';
 
 let registryCache: Registry | null = null;
 
@@ -52,7 +51,7 @@ export function getUrlTypeFromRegistryType(registryType: string): string {
 }
 
 export function getInstallCommand(name: string): string {
-  return `npx shadcn@latest add ${siteConfig.url}/r/${name}.json`;
+  return `npx shadcn@latest add https://registry.crytec.net/r/${name}.json`;
 }
 
 export function getComponentSource(filePath: string): string {

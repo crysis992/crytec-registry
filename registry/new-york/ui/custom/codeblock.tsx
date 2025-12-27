@@ -2,7 +2,7 @@
 
 import { Check, ChevronDown, Copy } from 'lucide-react';
 import * as React from 'react';
-import { type BundledLanguage, type BundledTheme, codeToHtml } from 'shiki';
+import type { BundledLanguage, BundledTheme, ShikiTransformer } from 'shiki';
 
 import { cn } from '@/lib/utils';
 
@@ -71,58 +71,123 @@ function CodeBlock({
 }: CodeBlockProps) {
   const [activeValue, setActiveValue] = React.useState(defaultValue ?? data[0]?.value ?? '');
   const [highlightedCode, setHighlightedCode] = React.useState<Map<string, string>>(new Map());
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [hasCopied, setHasCopied] = React.useState(false);
 
-  // Stable dependency key for data array to prevent infinite re-renders
-  const _dataKey = React.useMemo(() => JSON.stringify(data.map((d) => ({ v: d.value, c: d.code, l: d.language }))), [data]);
-  const _themeKey = `${theme.light}-${theme.dark}`;
+  // Keep activeValue valid when data changes
+  React.useEffect(() => {
+    if (!activeValue) {
+      setActiveValue(defaultValue ?? data[0]?.value ?? '');
+      return;
+    }
+    const stillExists = data.some((d) => d.value === activeValue);
+    if (!stillExists) {
+      setActiveValue(defaultValue ?? data[0]?.value ?? '');
+    }
+  }, [activeValue, data, defaultValue]);
 
+  const highlightItem = React.useCallback(
+    async (item: CodeBlockData): Promise<string> => {
+      const { codeToHtml } = await import('shiki');
+
+      const code = item.code.trim();
+      const lang = (item.language ?? item.value) as BundledLanguage;
+
+      const transformers: ShikiTransformer[] = [
+        {
+          line(node, line) {
+            if (showLineNumbers) {
+              // Shiki's hast nodes expose `properties`
+              (node as unknown as { properties: Record<string, unknown> }).properties['data-line'] = line;
+            }
+          },
+        },
+      ];
+
+      const baseOptions = {
+        themes: { light: theme.light, dark: theme.dark },
+        transformers,
+      };
+
+      try {
+        return await codeToHtml(code, {
+          lang,
+          ...baseOptions,
+        });
+      } catch {
+        return await codeToHtml(code, {
+          lang: 'plaintext' as BundledLanguage,
+          ...baseOptions,
+        });
+      }
+    },
+    [showLineNumbers, theme.dark, theme.light],
+  );
+
+  // Clear cache when data/theme changes, then highlight active item first.
   React.useEffect(() => {
     let cancelled = false;
 
-    async function highlightAll() {
-      setIsLoading(true);
-      const results = new Map<string, string>();
+    setHighlightedCode(new Map());
 
-      for (const item of data) {
+    const activeItem = data.find((d) => d.value === activeValue) ?? data[0];
+    if (!activeItem) return;
+
+    setIsLoading(true);
+
+    (async () => {
+      try {
+        const html = await highlightItem(activeItem);
         if (cancelled) return;
-
-        try {
-          const html = await codeToHtml(item.code.trim(), {
-            lang: (item.language ?? item.value) as BundledLanguage,
-            themes: {
-              light: theme.light,
-              dark: theme.dark,
-            },
-          });
-          results.set(item.value, html);
-        } catch {
-          // Fallback to plaintext if language not supported
-          const html = await codeToHtml(item.code.trim(), {
-            lang: 'plaintext',
-            themes: {
-              light: theme.light,
-              dark: theme.dark,
-            },
-          });
-          results.set(item.value, html);
-        }
+        setHighlightedCode(new Map([[activeItem.value, html]]));
+      } finally {
+        if (!cancelled) setIsLoading(false);
       }
-
-      if (!cancelled) {
-        setHighlightedCode(results);
-        setIsLoading(false);
-      }
-    }
-
-    highlightAll();
+    })();
 
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, theme.dark, theme.light]);
+  }, [activeValue, data, highlightItem]);
+
+  // Lazy-highlight other items in idle time after the active item is ready.
+  React.useEffect(() => {
+    if (isLoading) return;
+    if (data.length <= 1) return;
+    if (!highlightedCode.get(activeValue)) return;
+
+    let cancelled = false;
+    const remaining = data.filter((d) => !highlightedCode.has(d.value));
+    if (remaining.length === 0) return;
+
+    const run = () => {
+      (async () => {
+        const next = new Map(highlightedCode);
+        for (const item of remaining) {
+          if (cancelled) return;
+          try {
+            const html = await highlightItem(item);
+            next.set(item.value, html);
+          } catch {
+            // ignore individual failures; active item already rendered
+          }
+        }
+        if (!cancelled) setHighlightedCode(next);
+      })();
+    };
+
+    // Prefer requestIdleCallback, fallback to setTimeout
+    const ric = (globalThis as unknown as { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback;
+    const cancelRic = (globalThis as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback;
+
+    const id = ric ? ric(run) : window.setTimeout(run, 50);
+
+    return () => {
+      cancelled = true;
+      if (ric && cancelRic) cancelRic(id);
+      if (!ric) window.clearTimeout(id);
+    };
+  }, [activeValue, data, highlightedCode, highlightItem, isLoading]);
 
   React.useEffect(() => {
     if (hasCopied) {
@@ -134,7 +199,22 @@ function CodeBlock({
   const copyCode = React.useCallback(async () => {
     const activeItem = data.find((item) => item.value === activeValue);
     if (activeItem) {
-      await navigator.clipboard.writeText(activeItem.code.trim());
+      const text = activeItem.code.trim();
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // Fallback for environments without Clipboard API
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
       setHasCopied(true);
     }
   }, [data, activeValue]);

@@ -1,9 +1,7 @@
 'use client';
 
-import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import * as React from 'react';
 import type { NavSection } from '@/docs/types';
 import { cn } from '@/lib/utils';
 
@@ -23,56 +21,6 @@ export function Sidebar({ docsConfig }: SidebarProps) {
         />
       </div>
     </aside>
-  );
-}
-
-interface MobileSidebarProps {
-  docsConfig: NavSection[];
-}
-
-export function MobileSidebar({ docsConfig }: MobileSidebarProps) {
-  const pathname = usePathname();
-  const [open, setOpen] = React.useState(false);
-
-  React.useEffect(() => {
-    setOpen(false);
-  }, []);
-
-  return (
-    <div className="lg:hidden">
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 text-sm font-medium"
-      >
-        <Menu className="h-5 w-5" />
-        Menu
-      </button>
-      {open && (
-        <>
-          <div
-            className="fixed inset-0 z-50 bg-black/50"
-            onClick={() => setOpen(false)}
-          />
-          <div className="fixed inset-y-0 left-0 z-50 w-72 bg-[var(--background)] p-6 shadow-lg">
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-semibold">Navigation</span>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-md p-1 hover:bg-[var(--muted)]"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <SidebarContent
-              pathname={pathname}
-              docsConfig={docsConfig}
-            />
-          </div>
-        </>
-      )}
-    </div>
   );
 }
 

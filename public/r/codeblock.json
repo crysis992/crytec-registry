@@ -3,13 +3,8 @@
   "name": "codeblock",
   "title": "CodeBlock",
   "description": "A compound code block component with syntax highlighting, multi-file tabs, copy button, and customizable themes.",
-  "dependencies": [
-    "shiki",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["shiki", "lucide-react"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/new-york/ui/custom/codeblock.tsx",

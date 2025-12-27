@@ -6,7 +6,6 @@ import { PageHeader } from '@/docs/components/page-header';
 import { defaultTocItems, TableOfContents } from '@/docs/components/toc';
 import type { DocComponent } from '@/docs/types';
 import { getComponentSource, getRegistryItem, getUrlTypeFromRegistryType, hasDocumentation } from '@/lib/registry';
-import { siteConfig } from '@/site';
 
 interface PageProps {
   params: Promise<{
@@ -35,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${item.title} - ${siteConfig.name}`,
+    title: `${item.title} - Crytec Registry`,
     description: item.description,
   };
 }

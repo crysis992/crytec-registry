@@ -3,15 +3,8 @@
   "name": "iconpicker",
   "title": "IconPicker",
   "description": "A compound component for selecting icons from Lucide React with search, preview, and optimized rendering.",
-  "dependencies": [
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button",
-    "dialog",
-    "input",
-    "utils"
-  ],
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["button", "dialog", "input", "utils"],
   "files": [
     {
       "path": "registry/new-york/ui/custom/iconpicker.tsx",

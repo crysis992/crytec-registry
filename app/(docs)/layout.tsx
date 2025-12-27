@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { MobileSidebar, Sidebar } from '@/docs/components/sidebar';
+import { Sidebar } from '@/docs/components/sidebar';
 import { getDocsConfig } from '@/docs/nav';
-import { siteConfig } from '@/site';
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
   const docsConfig = getDocsConfig();
@@ -10,13 +9,13 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
     <div className="min-h-screen">
       {/* Header */}
       <header className="sticky top-0 z-40 border-b bg-[var(--background)]">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <div className="container mx-auto flex h-16 items-center px-4">
           <div className="flex items-center gap-6">
             <Link
               href="/"
               className="font-semibold"
             >
-              {siteConfig.name}
+              Crytec Registry
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm">
               <Link
@@ -27,7 +26,6 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               </Link>
             </nav>
           </div>
-          <MobileSidebar docsConfig={docsConfig} />
         </div>
       </header>
 
