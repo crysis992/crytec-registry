@@ -7,7 +7,6 @@ import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
 import type { PropDefinition } from '@/docs/types';
 import {
   ColorPicker,
-  ColorPickerAlphaSlider,
   ColorPickerArea,
   ColorPickerContent,
   ColorPickerEyeDropper,
@@ -107,7 +106,6 @@ const usageCode = `import {
   ColorPickerContent,
   ColorPickerArea,
   ColorPickerHueSlider,
-  ColorPickerAlphaSlider,
   ColorPickerFormatSelect,
   ColorPickerInput,
   ColorPickerSwatch,
@@ -130,10 +128,7 @@ export function ColorPickerExample() {
         <ColorPickerArea />
         <div className="flex items-center gap-2">
           <ColorPickerEyeDropper />
-          <div className="flex flex-1 flex-col gap-2">
-            <ColorPickerHueSlider />
-            <ColorPickerAlphaSlider />
-          </div>
+          <ColorPickerHueSlider className="flex-1" />
         </div>
         <div className="flex items-center gap-2">
           <ColorPickerFormatSelect />
@@ -177,10 +172,7 @@ const controlledCode = `function ColorPickerControlledDemo() {
             <ColorPickerArea />
             <div className="flex items-center gap-2">
               <ColorPickerEyeDropper />
-              <div className="flex flex-1 flex-col gap-2">
-                <ColorPickerHueSlider />
-                <ColorPickerAlphaSlider />
-              </div>
+              <ColorPickerHueSlider className="flex-1" />
             </div>
             <div className="flex items-center gap-2">
               <ColorPickerFormatSelect />
@@ -288,10 +280,7 @@ function BasicDemo() {
         <ColorPickerArea />
         <div className="flex items-center gap-2">
           <ColorPickerEyeDropper />
-          <div className="flex flex-1 flex-col gap-2">
-            <ColorPickerHueSlider />
-            <ColorPickerAlphaSlider />
-          </div>
+          <ColorPickerHueSlider className="flex-1" />
         </div>
         <div className="flex items-center gap-2">
           <ColorPickerFormatSelect />
@@ -349,10 +338,7 @@ function ControlledDemo() {
             <ColorPickerArea />
             <div className="flex items-center gap-2">
               <ColorPickerEyeDropper />
-              <div className="flex flex-1 flex-col gap-2">
-                <ColorPickerHueSlider />
-                <ColorPickerAlphaSlider />
-              </div>
+              <ColorPickerHueSlider className="flex-1" />
             </div>
             <div className="flex items-center gap-2">
               <ColorPickerFormatSelect />
@@ -586,9 +572,6 @@ export function ColorpickerDoc({ sourceCode }: ColorPickerDocProps) {
               </li>
               <li>
                 <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">ColorPickerHueSlider</code> - Hue slider control
-              </li>
-              <li>
-                <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">ColorPickerAlphaSlider</code> - Alpha/opacity slider
               </li>
               <li>
                 <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">ColorPickerFormatSelect</code> - Format selector

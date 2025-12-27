@@ -3,7 +3,7 @@
 import { Button } from '@components/button';
 import { Input } from '@components/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@components/popover';
-import { Droplet } from 'lucide-react';
+import { Pipette } from 'lucide-react';
 import * as React from 'react';
 import { cn } from '@/lib/utils';
 
@@ -23,6 +23,12 @@ interface HSL {
   h: number;
   s: number;
   l: number;
+}
+
+interface HSV {
+  h: number;
+  s: number;
+  v: number;
 }
 
 function hexToRgb(hex: string): RGB | null {
@@ -68,11 +74,7 @@ function rgbToHsl(r: number, g: number, b: number): HSL {
     }
   }
 
-  return {
-    h: h * 360,
-    s: s * 100,
-    l: l * 100,
-  };
+  return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
 function hslToRgb(h: number, s: number, l: number): RGB {
@@ -112,38 +114,112 @@ function hslToRgb(h: number, s: number, l: number): RGB {
   };
 }
 
-function parseColor(color: string): { rgb: RGB; hsl: HSL; hex: string } | null {
-  // Try hex first
-  if (color.startsWith('#')) {
-    const rgb = hexToRgb(color);
-    if (rgb) {
-      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-      // Normalize hex to lowercase and ensure 6 digits
-      const normalizedHex = rgbToHex(rgb.r, rgb.g, rgb.b).toLowerCase();
-      return { rgb, hsl, hex: normalizedHex };
+function rgbToHsv(r: number, g: number, b: number): HSV {
+  const rNorm = r / 255;
+  const gNorm = g / 255;
+  const bNorm = b / 255;
+
+  const max = Math.max(rNorm, gNorm, bNorm);
+  const min = Math.min(rNorm, gNorm, bNorm);
+  const d = max - min;
+
+  let h = 0;
+  const s = max === 0 ? 0 : d / max;
+  const v = max;
+
+  if (max !== min) {
+    switch (max) {
+      case rNorm:
+        h = ((gNorm - bNorm) / d + (gNorm < bNorm ? 6 : 0)) / 6;
+        break;
+      case gNorm:
+        h = ((bNorm - rNorm) / d + 2) / 6;
+        break;
+      case bNorm:
+        h = ((rNorm - gNorm) / d + 4) / 6;
+        break;
     }
   }
 
-  // Try rgb/rgba
+  return { h: h * 360, s: s * 100, v: v * 100 };
+}
+
+function hsvToRgb(h: number, s: number, v: number): RGB {
+  const sNorm = s / 100;
+  const vNorm = v / 100;
+  const c = vNorm * sNorm;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = vNorm - c;
+
+  let rPrime = 0;
+  let gPrime = 0;
+  let bPrime = 0;
+
+  if (h >= 0 && h < 60) {
+    rPrime = c;
+    gPrime = x;
+  } else if (h >= 60 && h < 120) {
+    rPrime = x;
+    gPrime = c;
+  } else if (h >= 120 && h < 180) {
+    gPrime = c;
+    bPrime = x;
+  } else if (h >= 180 && h < 240) {
+    gPrime = x;
+    bPrime = c;
+  } else if (h >= 240 && h < 300) {
+    rPrime = x;
+    bPrime = c;
+  } else {
+    rPrime = c;
+    bPrime = x;
+  }
+
+  return {
+    r: Math.round((rPrime + m) * 255),
+    g: Math.round((gPrime + m) * 255),
+    b: Math.round((bPrime + m) * 255),
+  };
+}
+
+function parseColor(color: string): { rgb: RGB; hsl: HSL; hsv: HSV; hex: string } | null {
+  if (color.startsWith('#')) {
+    const rgb = hexToRgb(color);
+    if (rgb) {
+      return {
+        rgb,
+        hsl: rgbToHsl(rgb.r, rgb.g, rgb.b),
+        hsv: rgbToHsv(rgb.r, rgb.g, rgb.b),
+        hex: rgbToHex(rgb.r, rgb.g, rgb.b).toLowerCase(),
+      };
+    }
+  }
+
   const rgbMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
   if (rgbMatch) {
     const r = Number.parseInt(rgbMatch[1], 10);
     const g = Number.parseInt(rgbMatch[2], 10);
     const b = Number.parseInt(rgbMatch[3], 10);
-    const hex = rgbToHex(r, g, b).toLowerCase();
-    const hsl = rgbToHsl(r, g, b);
-    return { rgb: { r, g, b }, hsl, hex };
+    return {
+      rgb: { r, g, b },
+      hsl: rgbToHsl(r, g, b),
+      hsv: rgbToHsv(r, g, b),
+      hex: rgbToHex(r, g, b).toLowerCase(),
+    };
   }
 
-  // Try hsl/hsla
   const hslMatch = color.match(/hsla?\((\d+),\s*(\d+)%,\s*(\d+)%(?:,\s*[\d.]+)?\)/);
   if (hslMatch) {
     const h = Number.parseInt(hslMatch[1], 10);
     const s = Number.parseInt(hslMatch[2], 10);
     const l = Number.parseInt(hslMatch[3], 10);
     const rgb = hslToRgb(h, s, l);
-    const hex = rgbToHex(rgb.r, rgb.g, rgb.b).toLowerCase();
-    return { rgb, hsl: { h, s, l }, hex };
+    return {
+      rgb,
+      hsl: { h, s, l },
+      hsv: rgbToHsv(rgb.r, rgb.g, rgb.b),
+      hex: rgbToHex(rgb.r, rgb.g, rgb.b).toLowerCase(),
+    };
   }
 
   return null;
@@ -163,17 +239,62 @@ function formatColor(color: { rgb: RGB; hsl: HSL; hex: string }, format: ColorFo
 }
 
 /* -----------------------------------------------------------------------------
- * Types
+ * Drag Hook
+ * -------------------------------------------------------------------------- */
+
+function usePointerDrag(onDrag: (x: number, y: number) => void) {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = React.useState(false);
+
+  const getPosition = React.useCallback((e: { clientX: number; clientY: number }) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return null;
+    return {
+      x: Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)),
+      y: Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height)),
+    };
+  }, []);
+
+  const handlePointerDown = React.useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      setIsDragging(true);
+      const pos = getPosition(e);
+      if (pos) onDrag(pos.x, pos.y);
+    },
+    [getPosition, onDrag],
+  );
+
+  React.useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMove = (e: PointerEvent) => {
+      const pos = getPosition(e);
+      if (pos) onDrag(pos.x, pos.y);
+    };
+
+    const handleUp = () => setIsDragging(false);
+
+    document.addEventListener('pointermove', handleMove);
+    document.addEventListener('pointerup', handleUp);
+    return () => {
+      document.removeEventListener('pointermove', handleMove);
+      document.removeEventListener('pointerup', handleUp);
+    };
+  }, [isDragging, getPosition, onDrag]);
+
+  return { ref, handlePointerDown };
+}
+
+/* -----------------------------------------------------------------------------
+ * Context
  * -------------------------------------------------------------------------- */
 
 interface ColorPickerContextValue {
   value: string;
   setValue: (value: string) => void;
-  open: boolean;
-  setOpen: (open: boolean) => void;
   format: ColorFormat;
   setFormat: (format: ColorFormat) => void;
-  color: { rgb: RGB; hsl: HSL; hex: string };
+  color: { rgb: RGB; hsl: HSL; hsv: HSV; hex: string };
   disabled?: boolean;
 }
 
@@ -203,6 +324,8 @@ export interface ColorPickerProps {
   children: React.ReactNode;
 }
 
+const DEFAULT_COLOR = { rgb: { r: 0, g: 0, b: 0 }, hsl: { h: 0, s: 0, l: 0 }, hsv: { h: 0, s: 0, v: 0 }, hex: '#000000' };
+
 export function ColorPicker({
   value: controlledValue,
   defaultValue = '#000000',
@@ -221,16 +344,11 @@ export function ColorPicker({
   const value = controlledValue ?? internalValue;
   const open = controlledOpen ?? internalOpen;
 
-  const parsedColor = React.useMemo(() => {
-    const parsed = parseColor(value);
-    return parsed || { rgb: { r: 0, g: 0, b: 0 }, hsl: { h: 0, s: 0, l: 0 }, hex: '#000000' };
-  }, [value]);
+  const parsedColor = React.useMemo(() => parseColor(value) || DEFAULT_COLOR, [value]);
 
   const setValue = React.useCallback(
     (newValue: string) => {
-      if (controlledValue === undefined) {
-        setInternalValue(newValue);
-      }
+      if (controlledValue === undefined) setInternalValue(newValue);
       onValueChange?.(newValue);
     },
     [controlledValue, onValueChange],
@@ -238,26 +356,15 @@ export function ColorPicker({
 
   const setOpen = React.useCallback(
     (newOpen: boolean) => {
-      if (controlledOpen === undefined) {
-        setInternalOpen(newOpen);
-      }
+      if (controlledOpen === undefined) setInternalOpen(newOpen);
       onOpenChange?.(newOpen);
     },
     [controlledOpen, onOpenChange],
   );
 
   const contextValue = React.useMemo<ColorPickerContextValue>(
-    () => ({
-      value,
-      setValue,
-      open,
-      setOpen,
-      format,
-      setFormat,
-      color: parsedColor,
-      disabled,
-    }),
-    [value, setValue, open, setOpen, format, parsedColor, disabled],
+    () => ({ value, setValue, format, setFormat, color: parsedColor, disabled }),
+    [value, setValue, format, parsedColor, disabled],
   );
 
   return (
@@ -302,7 +409,7 @@ export interface ColorPickerContentProps extends React.ComponentProps<typeof Pop
 export function ColorPickerContent({ className, children, ...props }: ColorPickerContentProps) {
   return (
     <PopoverContent
-      className={cn('w-auto p-3', className)}
+      className={cn('w-auto p-3 bg-[var(--popover)] text-[var(--popover-foreground)]', className)}
       {...props}
     >
       {children}
@@ -337,102 +444,41 @@ export interface ColorPickerAreaProps extends React.ComponentProps<'div'> {}
 
 export function ColorPickerArea({ className, ...props }: ColorPickerAreaProps) {
   const { color, setValue } = useColorPicker();
-  const areaRef = React.useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = React.useState(false);
 
-  const handlePointerDown = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      setIsDragging(true);
-      const rect = areaRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-
-      const s = x * 100;
-      const l = (1 - y) * 100;
-
-      const newRgb = hslToRgb(color.hsl.h, s, l);
-      const newHex = rgbToHex(newRgb.r, newRgb.g, newRgb.b).toLowerCase();
-      setValue(newHex);
+  const handleDrag = React.useCallback(
+    (x: number, y: number) => {
+      const newRgb = hsvToRgb(color.hsv.h, x * 100, (1 - y) * 100);
+      setValue(rgbToHex(newRgb.r, newRgb.g, newRgb.b).toLowerCase());
     },
-    [color.hsl.h, setValue],
+    [color.hsv.h, setValue],
   );
 
-  const handlePointerMove = React.useCallback(
-    (e: PointerEvent) => {
-      if (!isDragging) return;
-      const rect = areaRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-
-      const s = x * 100;
-      const l = (1 - y) * 100;
-
-      const newRgb = hslToRgb(color.hsl.h, s, l);
-      const newHex = rgbToHex(newRgb.r, newRgb.g, newRgb.b).toLowerCase();
-      setValue(newHex);
-    },
-    [isDragging, color.hsl.h, setValue],
-  );
-
-  const handlePointerUp = React.useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  React.useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('pointermove', handlePointerMove);
-      document.addEventListener('pointerup', handlePointerUp);
-      return () => {
-        document.removeEventListener('pointermove', handlePointerMove);
-        document.removeEventListener('pointerup', handlePointerUp);
-      };
-    }
-  }, [isDragging, handlePointerMove, handlePointerUp]);
+  const { ref, handlePointerDown } = usePointerDrag(handleDrag);
 
   const hueColor = React.useMemo(() => {
-    const rgb = hslToRgb(color.hsl.h, 100, 50);
+    const rgb = hsvToRgb(color.hsv.h, 100, 100);
     return rgbToHex(rgb.r, rgb.g, rgb.b);
-  }, [color.hsl.h]);
-
-  const position = React.useMemo(() => {
-    return {
-      x: color.hsl.s / 100,
-      y: 1 - color.hsl.l / 100,
-    };
-  }, [color.hsl.s, color.hsl.l]);
+  }, [color.hsv.h]);
 
   return (
     <div
-      ref={areaRef}
+      ref={ref}
       data-slot="colorpicker-area"
       className={cn('relative h-40 w-full rounded-md border border-[var(--border)] cursor-crosshair overflow-hidden', className)}
       onPointerDown={handlePointerDown}
       {...props}
     >
-      {/* Base: Saturation gradient from white (left, s=0%) to full hue (right, s=100%) */}
       <div
         className="absolute inset-0"
-        style={{
-          background: `linear-gradient(to right, #fff 0%, ${hueColor} 100%)`,
-        }}
+        style={{ background: `linear-gradient(to right, #fff 0%, ${hueColor} 100%)` }}
       />
-      {/* Overlay: Lightness gradient from transparent (top, l=100%) to black (bottom, l=0%) */}
       <div
         className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
-        }}
+        style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)' }}
       />
       <div
         className="absolute size-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-lg pointer-events-none z-10"
-        style={{
-          left: `${position.x * 100}%`,
-          top: `${position.y * 100}%`,
-        }}
+        style={{ left: `${color.hsv.s}%`, top: `${100 - color.hsv.v}%` }}
       />
     </div>
   );
@@ -446,61 +492,20 @@ export interface ColorPickerHueSliderProps extends React.ComponentProps<'div'> {
 
 export function ColorPickerHueSlider({ className, ...props }: ColorPickerHueSliderProps) {
   const { color, setValue } = useColorPicker();
-  const sliderRef = React.useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = React.useState(false);
 
-  const handlePointerDown = React.useCallback(
-    (e: React.PointerEvent<HTMLDivElement>) => {
-      setIsDragging(true);
-      const rect = sliderRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const h = x * 360;
-
-      const newRgb = hslToRgb(h, color.hsl.s, color.hsl.l);
-      const newHex = rgbToHex(newRgb.r, newRgb.g, newRgb.b).toLowerCase();
-      setValue(newHex);
+  const handleDrag = React.useCallback(
+    (x: number) => {
+      const newRgb = hsvToRgb(x * 360, color.hsv.s, color.hsv.v);
+      setValue(rgbToHex(newRgb.r, newRgb.g, newRgb.b).toLowerCase());
     },
-    [color.hsl.s, color.hsl.l, setValue],
+    [color.hsv.s, color.hsv.v, setValue],
   );
 
-  const handlePointerMove = React.useCallback(
-    (e: PointerEvent) => {
-      if (!isDragging) return;
-      const rect = sliderRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      const h = x * 360;
-
-      const newRgb = hslToRgb(h, color.hsl.s, color.hsl.l);
-      const newHex = rgbToHex(newRgb.r, newRgb.g, newRgb.b).toLowerCase();
-      setValue(newHex);
-    },
-    [isDragging, color.hsl.s, color.hsl.l, setValue],
-  );
-
-  const handlePointerUp = React.useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  React.useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('pointermove', handlePointerMove);
-      document.addEventListener('pointerup', handlePointerUp);
-      return () => {
-        document.removeEventListener('pointermove', handlePointerMove);
-        document.removeEventListener('pointerup', handlePointerUp);
-      };
-    }
-  }, [isDragging, handlePointerMove, handlePointerUp]);
-
-  const position = color.hsl.h / 360;
+  const { ref, handlePointerDown } = usePointerDrag((x) => handleDrag(x));
 
   return (
     <div
-      ref={sliderRef}
+      ref={ref}
       data-slot="colorpicker-hue-slider"
       className={cn('relative h-3 w-full rounded-md border border-[var(--border)] cursor-pointer overflow-hidden', className)}
       onPointerDown={handlePointerDown}
@@ -515,92 +520,7 @@ export function ColorPickerHueSlider({ className, ...props }: ColorPickerHueSlid
       />
       <div
         className="absolute top-0 bottom-0 w-1 -translate-x-1/2 rounded-full border-2 border-white shadow-lg pointer-events-none"
-        style={{
-          left: `${position * 100}%`,
-        }}
-      />
-    </div>
-  );
-}
-
-/* -----------------------------------------------------------------------------
- * ColorPickerAlphaSlider
- * -------------------------------------------------------------------------- */
-
-export interface ColorPickerAlphaSliderProps extends React.ComponentProps<'div'> {}
-
-export function ColorPickerAlphaSlider({ className, ...props }: ColorPickerAlphaSliderProps) {
-  const { color } = useColorPicker();
-  // Note: Alpha support would require rgba/hsla parsing and formatting
-  // For now, this is a placeholder that shows the color but doesn't modify alpha
-  const sliderRef = React.useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = React.useState(false);
-  const [alpha, setAlpha] = React.useState(1);
-
-  const handlePointerDown = React.useCallback((e: React.PointerEvent<HTMLDivElement>) => {
-    setIsDragging(true);
-    const rect = sliderRef.current?.getBoundingClientRect();
-    if (!rect) return;
-
-    const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    setAlpha(x);
-  }, []);
-
-  const handlePointerMove = React.useCallback(
-    (e: PointerEvent) => {
-      if (!isDragging) return;
-      const rect = sliderRef.current?.getBoundingClientRect();
-      if (!rect) return;
-
-      const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-      setAlpha(x);
-    },
-    [isDragging],
-  );
-
-  const handlePointerUp = React.useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  React.useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('pointermove', handlePointerMove);
-      document.addEventListener('pointerup', handlePointerUp);
-      return () => {
-        document.removeEventListener('pointermove', handlePointerMove);
-        document.removeEventListener('pointerup', handlePointerUp);
-      };
-    }
-  }, [isDragging, handlePointerMove, handlePointerUp]);
-
-  const position = alpha;
-
-  return (
-    <div
-      ref={sliderRef}
-      data-slot="colorpicker-alpha-slider"
-      className={cn('relative h-3 w-full rounded-md border border-[var(--border)] cursor-pointer overflow-hidden', className)}
-      onPointerDown={handlePointerDown}
-      {...props}
-    >
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: 'repeating-conic-gradient(#808080 0% 25%, #fff 0% 50%)',
-          backgroundSize: '8px 8px',
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(to right, transparent 0%, ${color.hex} 100%)`,
-        }}
-      />
-      <div
-        className="absolute top-0 bottom-0 w-1 -translate-x-1/2 rounded-full border-2 border-white shadow-lg pointer-events-none"
-        style={{
-          left: `${position * 100}%`,
-        }}
+        style={{ left: `${(color.hsv.h / 360) * 100}%` }}
       />
     </div>
   );
@@ -651,11 +571,8 @@ export function ColorPickerInput({ className, ...props }: ColorPickerInputProps)
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value;
       setInputValue(newValue);
-
       const parsed = parseColor(newValue);
-      if (parsed) {
-        setValue(parsed.hex);
-      }
+      if (parsed) setValue(parsed.hex);
     },
     [setValue],
   );
@@ -692,17 +609,13 @@ export function ColorPickerEyeDropper({ className, ...props }: ColorPickerEyeDro
       // @ts-expect-error - EyeDropper API is not in types
       const eyeDropper = new window.EyeDropper();
       const result = await eyeDropper.open();
-      if (result.sRGBHex) {
-        setValue(result.sRGBHex.toLowerCase());
-      }
+      if (result.sRGBHex) setValue(result.sRGBHex.toLowerCase());
     } catch {
       // User cancelled or error occurred
     }
   }, [setValue]);
 
-  if (!isSupported) {
-    return null;
-  }
+  if (!isSupported) return null;
 
   return (
     <Button
@@ -713,7 +626,7 @@ export function ColorPickerEyeDropper({ className, ...props }: ColorPickerEyeDro
       className={cn('shrink-0', className)}
       {...props}
     >
-      <Droplet className="size-4" />
+      <Pipette className="size-4" />
       <span className="sr-only">Pick color from screen</span>
     </Button>
   );
