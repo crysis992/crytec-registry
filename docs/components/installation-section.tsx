@@ -11,7 +11,7 @@ export async function InstallationSection({
   dependencies,
   registryDependencies,
 }: InstallationSectionProps) {
-  const installCommand = `npx shadcn@latest add https://crytec-registry.vercel.app/r/${name}.json`;
+  const installCommand = `npx shadcn@latest add https://registry.crytec.net/r/${name}.json`;
 
   return (
     <div className="space-y-6">

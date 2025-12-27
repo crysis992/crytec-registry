@@ -82,4 +82,5 @@ export const defaultTocItems: TocItem[] = [
   { id: "usage", title: "Usage", level: 2 },
   { id: "examples", title: "Examples", level: 2 },
   { id: "api-reference", title: "API Reference", level: 2 },
+  { id: "source", title: "Source Code", level: 2 },
 ];

@@ -120,13 +120,13 @@ export default async function DocPage({ params }: PageProps) {
         <div className="space-y-10">
           <PageHeader title={item.title} description={item.description} />
 
-          <ContentComponent sourceCode={sourceCode} />
-
           <InstallationSection
             name={item.name}
             dependencies={item.dependencies}
             registryDependencies={item.registryDependencies}
           />
+
+          <ContentComponent sourceCode={sourceCode} />
         </div>
       </article>
 
