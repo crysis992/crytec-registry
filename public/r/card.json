@@ -3,9 +3,7 @@
   "name": "card",
   "title": "Card",
   "description": "A card container with header, content, and footer slots.",
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/new-york/ui/shadcn/card.tsx",

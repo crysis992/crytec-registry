@@ -3,9 +3,7 @@
   "name": "input",
   "title": "Input",
   "description": "A form input component with focus states and validation support.",
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/new-york/ui/shadcn/input.tsx",

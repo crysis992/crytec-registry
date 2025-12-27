@@ -3,13 +3,8 @@
   "name": "label",
   "title": "Label",
   "description": "An accessible label component using Radix UI.",
-  "dependencies": [
-    "@radix-ui/react-label",
-    "class-variance-authority"
-  ],
-  "registryDependencies": [
-    "utils"
-  ],
+  "dependencies": ["@radix-ui/react-label", "class-variance-authority"],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/new-york/ui/shadcn/label.tsx",

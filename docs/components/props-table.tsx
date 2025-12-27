@@ -1,5 +1,5 @@
-import type { PropDefinition } from "@/docs/types";
-import { cn } from "@/lib/utils";
+import type { PropDefinition } from '@/docs/types';
+import { cn } from '@/lib/utils';
 
 interface PropsTableProps {
   props: PropDefinition[];
@@ -12,7 +12,7 @@ export function PropsTable({ props, className }: PropsTableProps) {
   }
 
   return (
-    <div className={cn("overflow-x-auto", className)}>
+    <div className={cn('overflow-x-auto', className)}>
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b">
@@ -24,7 +24,10 @@ export function PropsTable({ props, className }: PropsTableProps) {
         </thead>
         <tbody>
           {props.map((prop) => (
-            <tr key={prop.name} className="border-b">
+            <tr
+              key={prop.name}
+              className="border-b"
+            >
               <td className="py-3 pr-4">
                 <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm font-medium">
                   {prop.name}
@@ -35,15 +38,9 @@ export function PropsTable({ props, className }: PropsTableProps) {
                 <code className="text-[var(--muted-foreground)]">{prop.type}</code>
               </td>
               <td className="py-3 pr-4 text-[var(--muted-foreground)]">
-                {prop.defaultValue ? (
-                  <code className="text-sm">{prop.defaultValue}</code>
-                ) : (
-                  "-"
-                )}
+                {prop.defaultValue ? <code className="text-sm">{prop.defaultValue}</code> : '-'}
               </td>
-              <td className="py-3 text-[var(--muted-foreground)]">
-                {prop.description}
-              </td>
+              <td className="py-3 text-[var(--muted-foreground)]">{prop.description}</td>
             </tr>
           ))}
         </tbody>

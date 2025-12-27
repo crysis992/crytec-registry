@@ -1,4 +1,4 @@
-import { SimpleCodeblock } from "@/docs/components/simple-codeblock";
+import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
 
 interface InstallationSectionProps {
   name: string;
@@ -6,33 +6,33 @@ interface InstallationSectionProps {
   registryDependencies?: string[];
 }
 
-export async function InstallationSection({
-  name,
-  dependencies,
-  registryDependencies,
-}: InstallationSectionProps) {
+export async function InstallationSection({ name, dependencies, registryDependencies }: InstallationSectionProps) {
   const installCommand = `npx shadcn@latest add https://registry.crytec.net/r/${name}.json`;
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 id="installation" className="text-2xl font-semibold mb-4">
+        <h2
+          id="installation"
+          className="text-2xl font-semibold mb-4"
+        >
           Installation
         </h2>
         <div className="space-y-4">
           <div>
             <h3 className="text-lg font-medium mb-2">CLI</h3>
-            <SimpleCodeblock code={installCommand} language="bash" />
+            <SimpleCodeblock
+              code={installCommand}
+              language="bash"
+            />
           </div>
 
           {dependencies && dependencies.length > 0 && (
             <div>
               <h3 className="text-lg font-medium mb-2">Dependencies</h3>
-              <p className="text-sm text-[var(--muted-foreground)] mb-2">
-                This component requires the following npm packages:
-              </p>
+              <p className="text-sm text-[var(--muted-foreground)] mb-2">This component requires the following npm packages:</p>
               <SimpleCodeblock
-                code={`npm install ${dependencies.join(" ")}`}
+                code={`npm install ${dependencies.join(' ')}`}
                 language="bash"
               />
             </div>
@@ -42,13 +42,11 @@ export async function InstallationSection({
             <div>
               <h3 className="text-lg font-medium mb-2">Registry Dependencies</h3>
               <p className="text-sm text-[var(--muted-foreground)]">
-                This component also requires:{" "}
+                This component also requires:{' '}
                 {registryDependencies.map((dep, i) => (
                   <span key={dep}>
-                    <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">
-                      {dep}
-                    </code>
-                    {i < registryDependencies.length - 1 && ", "}
+                    <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">{dep}</code>
+                    {i < registryDependencies.length - 1 && ', '}
                   </span>
                 ))}
               </p>

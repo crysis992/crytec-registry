@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "pnpm biome lint --diagnostic-level=warn",
+    "format": "pnpm biome check --write",
+    "update": "pnpm dlx taze major --interactive --install",
+    "check-types": "tsc --noEmit --pretty",
+    "check-all": "pnpm run format && pnpm run lint && pnpm run check-types",
     "registry:build": "shadcn build"
   },
   "dependencies": {
@@ -16,7 +20,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.468.0",
+    "lucide-react": "^0.562.0",
     "motion": "^12.23.26",
     "next": "^16.1.1",
     "react": "^19.2.3",
@@ -24,17 +28,16 @@
     "react-hook-form": "^7.69.0",
     "server-only": "^0.0.1",
     "shiki": "^3.20.0",
-    "tailwind-merge": "^2.6.0",
+    "tailwind-merge": "^3.4.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.3",
     "shadcn": "^3.6.2",
     "tailwindcss": "^4",
     "typescript": "^5"

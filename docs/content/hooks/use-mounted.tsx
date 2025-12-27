@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { PreviewTabs } from "@/docs/components/component-preview";
-import { SimpleCodeblock } from "@/docs/components/simple-codeblock";
-import { PropsTable } from "@/docs/components/props-table";
-import type { PropDefinition } from "@/docs/types";
-import { useMounted } from "@/registry/new-york/hooks/use-mounted";
+import { PreviewTabs } from '@/docs/components/component-preview';
+import { PropsTable } from '@/docs/components/props-table';
+import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
+import type { PropDefinition } from '@/docs/types';
+import { useMounted } from '@/registry/new-york/hooks/use-mounted';
 
 const hookProps: PropDefinition[] = [];
 
@@ -39,7 +39,7 @@ function UseMountedDemo() {
   return (
     <div className="space-y-2 text-sm">
       <div>
-        <span className="font-medium">mounted:</span> {mounted ? "true" : "false"}
+        <span className="font-medium">mounted:</span> {mounted ? 'true' : 'false'}
       </div>
       <div className="text-[var(--muted-foreground)]">
         This flips to <code className="rounded bg-[var(--muted)] px-1.5 py-0.5">true</code> after the component mounts.
@@ -56,23 +56,34 @@ export function UseMountedDoc({ sourceCode }: UseMountedDocProps) {
   return (
     <div className="space-y-10">
       <section>
-        <h2 id="usage" className="text-2xl font-semibold mb-4">
+        <h2
+          id="usage"
+          className="text-2xl font-semibold mb-4"
+        >
           Usage
         </h2>
         <p className="text-[var(--muted-foreground)] mb-4">
           <code className="rounded bg-[var(--muted)] px-1.5 py-0.5">useMounted</code> returns
-          <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 mx-1">true</code> after the component has mounted.
-          Its primarily useful to avoid SSR hydration mismatches when you need to access browser-only APIs.
+          <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 mx-1">true</code> after the component has mounted. Its primarily useful
+          to avoid SSR hydration mismatches when you need to access browser-only APIs.
         </p>
 
         <PreviewTabs
           preview={<UseMountedDemo />}
-          codeBlock={<SimpleCodeblock code={usageCode} language="tsx" />}
+          codeBlock={
+            <SimpleCodeblock
+              code={usageCode}
+              language="tsx"
+            />
+          }
         />
       </section>
 
       <section>
-        <h2 id="examples" className="text-2xl font-semibold mb-4">
+        <h2
+          id="examples"
+          className="text-2xl font-semibold mb-4"
+        >
           Examples
         </h2>
 
@@ -80,32 +91,45 @@ export function UseMountedDoc({ sourceCode }: UseMountedDocProps) {
           <div>
             <h3 className="text-lg font-medium mb-3">Avoid hydration mismatch</h3>
             <p className="text-[var(--muted-foreground)] mb-4">
-              Guard browser-only reads (like <code className="rounded bg-[var(--muted)] px-1.5 py-0.5">localStorage</code>)
-              until after mount.
+              Guard browser-only reads (like <code className="rounded bg-[var(--muted)] px-1.5 py-0.5">localStorage</code>) until after
+              mount.
             </p>
             <PreviewTabs
               preview={<div className="text-sm text-[var(--muted-foreground)]">See code tab</div>}
-              codeBlock={<SimpleCodeblock code={hydrationMismatchCode} language="tsx" />}
+              codeBlock={
+                <SimpleCodeblock
+                  code={hydrationMismatchCode}
+                  language="tsx"
+                />
+              }
             />
           </div>
         </div>
       </section>
 
       <section>
-        <h2 id="api-reference" className="text-2xl font-semibold mb-4">
+        <h2
+          id="api-reference"
+          className="text-2xl font-semibold mb-4"
+        >
           API Reference
         </h2>
-        <p className="text-[var(--muted-foreground)] mb-4">
-          This hook has no props. It returns a boolean.
-        </p>
+        <p className="text-[var(--muted-foreground)] mb-4">This hook has no props. It returns a boolean.</p>
         <PropsTable props={hookProps} />
       </section>
 
       <section>
-        <h2 id="source" className="text-2xl font-semibold mb-4">
+        <h2
+          id="source"
+          className="text-2xl font-semibold mb-4"
+        >
           Source Code
         </h2>
-        <SimpleCodeblock code={sourceCode} filename="use-mounted.ts" language="ts" />
+        <SimpleCodeblock
+          code={sourceCode}
+          filename="use-mounted.ts"
+          language="ts"
+        />
       </section>
     </div>
   );

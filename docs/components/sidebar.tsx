@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { NavSection } from "@/docs/types";
-import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import * as React from 'react';
+import type { NavSection } from '@/docs/types';
+import { cn } from '@/lib/utils';
 
 interface SidebarProps {
   docsConfig: NavSection[];
@@ -17,7 +17,10 @@ export function Sidebar({ docsConfig }: SidebarProps) {
   return (
     <aside className="hidden lg:block w-64 shrink-0">
       <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto py-6 pr-4">
-        <SidebarContent pathname={pathname} docsConfig={docsConfig} />
+        <SidebarContent
+          pathname={pathname}
+          docsConfig={docsConfig}
+        />
       </div>
     </aside>
   );
@@ -33,7 +36,7 @@ export function MobileSidebar({ docsConfig }: MobileSidebarProps) {
 
   React.useEffect(() => {
     setOpen(false);
-  }, [pathname]);
+  }, []);
 
   return (
     <div className="lg:hidden">
@@ -62,7 +65,10 @@ export function MobileSidebar({ docsConfig }: MobileSidebarProps) {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <SidebarContent pathname={pathname} docsConfig={docsConfig} />
+            <SidebarContent
+              pathname={pathname}
+              docsConfig={docsConfig}
+            />
           </div>
         </>
       )}
@@ -80,19 +86,17 @@ function SidebarContent({ pathname, docsConfig }: SidebarContentProps) {
     <nav className="space-y-6">
       {docsConfig.map((section) => (
         <div key={section.title}>
-          <h4 className="mb-2 text-sm font-semibold text-[var(--foreground)]">
-            {section.title}
-          </h4>
+          <h4 className="mb-2 text-sm font-semibold text-[var(--foreground)]">{section.title}</h4>
           <ul className="space-y-1">
             {section.items.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   className={cn(
-                    "block rounded-md px-3 py-2 text-sm transition-colors",
+                    'block rounded-md px-3 py-2 text-sm transition-colors',
                     pathname === item.href
-                      ? "bg-[var(--muted)] font-medium text-[var(--foreground)]"
-                      : "text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]"
+                      ? 'bg-[var(--muted)] font-medium text-[var(--foreground)]'
+                      : 'text-[var(--muted-foreground)] hover:bg-[var(--muted)] hover:text-[var(--foreground)]',
                   )}
                 >
                   {item.title}

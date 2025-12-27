@@ -1,9 +1,5 @@
-import type { NavSection, NavItem } from "@/docs/types";
-import {
-  getRegistryItems,
-  getUrlTypeFromRegistryType,
-  hasDocumentation,
-} from "@/lib/registry";
+import type { NavItem, NavSection } from '@/docs/types';
+import { getRegistryItems, getUrlTypeFromRegistryType, hasDocumentation } from '@/lib/registry';
 
 /**
  * Generate navigation sections from registry items
@@ -11,7 +7,7 @@ import {
  */
 export function getDocsConfig(): NavSection[] {
   const items = getRegistryItems();
-  
+
   // Group items by type
   const itemsByType = items.reduce(
     (acc, item) => {
@@ -22,27 +18,27 @@ export function getDocsConfig(): NavSection[] {
       acc[urlType].push(item);
       return acc;
     },
-    {} as Record<string, typeof items>
+    {} as Record<string, typeof items>,
   );
 
   // Create navigation sections
   const sections: NavSection[] = [
     {
-      title: "Getting Started",
-      items: [{ title: "Introduction", href: "/" }],
+      title: 'Getting Started',
+      items: [{ title: 'Introduction', href: '/' }],
     },
   ];
 
   // Add sections for each type
   const typeLabels: Record<string, string> = {
-    ui: "Components",
-    hooks: "Hooks",
-    lib: "Library",
-    blocks: "Blocks",
+    ui: 'Components',
+    hooks: 'Hooks',
+    lib: 'Library',
+    blocks: 'Blocks',
   };
 
   // Order: ui, hooks, lib, blocks
-  const typeOrder = ["ui", "hooks", "lib", "blocks"];
+  const typeOrder = ['ui', 'hooks', 'lib', 'blocks'];
 
   for (const type of typeOrder) {
     const typeItems = itemsByType[type] || [];
@@ -70,30 +66,30 @@ export function getDocsConfig(): NavSection[] {
 
 export function getTypeLabel(type: string): string {
   const labels: Record<string, string> = {
-    ui: "Components",
-    hooks: "Hooks",
-    lib: "Library",
-    blocks: "Blocks",
+    ui: 'Components',
+    hooks: 'Hooks',
+    lib: 'Library',
+    blocks: 'Blocks',
   };
   return labels[type] || type;
 }
 
 export function getRegistryTypeFromUrl(urlType: string): string {
   const mapping: Record<string, string> = {
-    ui: "registry:ui",
-    hooks: "registry:hook",
-    lib: "registry:lib",
-    blocks: "registry:block",
+    ui: 'registry:ui',
+    hooks: 'registry:hook',
+    lib: 'registry:lib',
+    blocks: 'registry:block',
   };
-  return mapping[urlType] || "registry:ui";
+  return mapping[urlType] || 'registry:ui';
 }
 
 export function getUrlTypeFromRegistry(registryType: string): string {
   const mapping: Record<string, string> = {
-    "registry:ui": "ui",
-    "registry:hook": "hooks",
-    "registry:lib": "lib",
-    "registry:block": "blocks",
+    'registry:ui': 'ui',
+    'registry:hook': 'hooks',
+    'registry:lib': 'lib',
+    'registry:block': 'blocks',
   };
-  return mapping[registryType] || "ui";
+  return mapping[registryType] || 'ui';
 }

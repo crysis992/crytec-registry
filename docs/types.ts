@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 export interface PropDefinition {
   name: string;
@@ -24,7 +24,7 @@ export interface ComponentDoc {
   name: string;
   title: string;
   description: string;
-  type: "ui" | "hooks" | "lib" | "blocks";
+  type: 'ui' | 'hooks' | 'lib' | 'blocks';
   dependencies?: string[];
   registryDependencies?: string[];
   props?: PropDefinition[];
@@ -44,7 +44,7 @@ export interface NavSection {
   items: NavItem[];
 }
 
-export type RegistryType = "registry:ui" | "registry:hook" | "registry:lib" | "registry:block";
+export type RegistryType = 'registry:ui' | 'registry:hook' | 'registry:lib' | 'registry:block';
 
 export interface RegistryItem {
   name: string;

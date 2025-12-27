@@ -1,30 +1,30 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 import {
   CodeBlock,
   CodeBlockBody,
   CodeBlockContent,
   CodeBlockCopyButton,
+  type CodeBlockData,
   CodeBlockFilename,
   CodeBlockFiles,
   CodeBlockHeader,
   CodeBlockItem,
-  type CodeBlockData,
-} from "@/registry/new-york/ui/custom/codeblock"
+} from '@/registry/new-york/ui/custom/codeblock';
 
 interface SimpleCodeblockProps {
-  code: string
-  language?: string
-  filename?: string
-  className?: string
-  showCopy?: boolean
-  showLineNumbers?: boolean
+  code: string;
+  language?: string;
+  filename?: string;
+  className?: string;
+  showCopy?: boolean;
+  showLineNumbers?: boolean;
 }
 
 export function SimpleCodeblock({
   code,
-  language = "tsx",
+  language = 'tsx',
   filename,
   className,
   showCopy = true,
@@ -39,8 +39,8 @@ export function SimpleCodeblock({
         language: language,
       },
     ],
-    [code, language, filename]
-  )
+    [code, language, filename],
+  );
 
   return (
     <CodeBlock
@@ -54,7 +54,10 @@ export function SimpleCodeblock({
           {filename && (
             <CodeBlockFiles>
               {(item) => (
-                <CodeBlockFilename key={item.value} value={item.value}>
+                <CodeBlockFilename
+                  key={item.value}
+                  value={item.value}
+                >
                   {item.filename}
                 </CodeBlockFilename>
               )}
@@ -66,11 +69,14 @@ export function SimpleCodeblock({
       )}
       <CodeBlockBody>
         {(item) => (
-          <CodeBlockItem key={item.value} value={item.value}>
+          <CodeBlockItem
+            key={item.value}
+            value={item.value}
+          >
             <CodeBlockContent />
           </CodeBlockItem>
         )}
       </CodeBlockBody>
     </CodeBlock>
-  )
+  );
 }

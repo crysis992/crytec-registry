@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 /**
  * Combines class names with Tailwind CSS conflict resolution.
@@ -23,11 +23,8 @@ export function cn(...inputs: ClassValue[]) {
  * formatDate(new Date(), "short") // "12/26/24"
  * ```
  */
-export function formatDate(
-  date: Date,
-  style: "long" | "short" = "long"
-): string {
-  return new Intl.DateTimeFormat("en-US", {
+export function formatDate(date: Date, style: 'long' | 'short' = 'long'): string {
+  return new Intl.DateTimeFormat('en-US', {
     dateStyle: style,
   }).format(date);
 }
@@ -68,4 +65,4 @@ export function formatProjectIconLabel(name: string): string {
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
-} 
+}

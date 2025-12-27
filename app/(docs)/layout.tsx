@@ -1,13 +1,9 @@
-import Link from "next/link";
-import { Sidebar, MobileSidebar } from "@/docs/components/sidebar";
-import { siteConfig } from "@/site";
-import { getDocsConfig } from "@/docs/nav";
+import Link from 'next/link';
+import { MobileSidebar, Sidebar } from '@/docs/components/sidebar';
+import { getDocsConfig } from '@/docs/nav';
+import { siteConfig } from '@/site';
 
-export default function DocsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DocsLayout({ children }: { children: React.ReactNode }) {
   const docsConfig = getDocsConfig();
 
   return (
@@ -16,7 +12,10 @@ export default function DocsLayout({
       <header className="sticky top-0 z-40 border-b bg-[var(--background)]">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-6">
-            <Link href="/" className="font-semibold">
+            <Link
+              href="/"
+              className="font-semibold"
+            >
               {siteConfig.name}
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm">

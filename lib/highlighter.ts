@@ -1,21 +1,16 @@
-import {
-  createHighlighter,
-  type Highlighter,
-  type BundledLanguage,
-  type BundledTheme,
-} from "shiki";
+import { type BundledLanguage, type BundledTheme, createHighlighter, type Highlighter } from 'shiki';
 
 // Supported themes for the codeblock component
 export const CODEBLOCK_THEMES = [
-  "github-dark",
-  "github-light",
-  "vitesse-dark",
-  "vitesse-light",
-  "nord",
-  "dracula",
-  "one-dark-pro",
-  "catppuccin-mocha",
-  "catppuccin-latte",
+  'github-dark',
+  'github-light',
+  'vitesse-dark',
+  'vitesse-light',
+  'nord',
+  'dracula',
+  'one-dark-pro',
+  'catppuccin-mocha',
+  'catppuccin-latte',
 ] as const;
 
 export type CodeblockTheme = (typeof CODEBLOCK_THEMES)[number];
@@ -38,10 +33,10 @@ export async function getHighlighter(): Promise<Highlighter> {
 function parseLineRanges(ranges: (number | string)[]): Set<number> {
   const lines = new Set<number>();
   for (const range of ranges) {
-    if (typeof range === "number") {
+    if (typeof range === 'number') {
       lines.add(range);
-    } else if (typeof range === "string" && range.includes("-")) {
-      const [start, end] = range.split("-").map(Number);
+    } else if (typeof range === 'string' && range.includes('-')) {
+      const [start, end] = range.split('-').map(Number);
       for (let i = start; i <= end; i++) {
         lines.add(i);
       }
@@ -57,16 +52,8 @@ export interface HighlightCodeOptions {
   highlightLines?: (number | string)[];
 }
 
-export async function highlightCode(
-  code: string,
-  options: HighlightCodeOptions = {}
-): Promise<string> {
-  const {
-    lang = "tsx",
-    themes = { light: "github-light", dark: "github-dark" },
-    showLineNumbers = false,
-    highlightLines = [],
-  } = options;
+export async function highlightCode(code: string, options: HighlightCodeOptions = {}): Promise<string> {
+  const { lang = 'tsx', themes = { light: 'github-light', dark: 'github-dark' }, showLineNumbers = false, highlightLines = [] } = options;
 
   const hl = await getHighlighter();
 
@@ -78,16 +65,14 @@ export async function highlightCode(
     } catch {
       // Fallback to plaintext if language not supported
       console.warn(`Language "${lang}" not found, falling back to plaintext`);
-      if (!loadedLangs.includes("plaintext")) {
-        await hl.loadLanguage("plaintext");
+      if (!loadedLangs.includes('plaintext')) {
+        await hl.loadLanguage('plaintext');
       }
     }
   }
 
   const highlightedLines = parseLineRanges(highlightLines);
-  const finalLang = hl.getLoadedLanguages().includes(lang as BundledLanguage)
-    ? (lang as BundledLanguage)
-    : "plaintext";
+  const finalLang = hl.getLoadedLanguages().includes(lang as BundledLanguage) ? (lang as BundledLanguage) : 'plaintext';
 
   return hl.codeToHtml(code, {
     lang: finalLang,
@@ -100,11 +85,11 @@ export async function highlightCode(
         line(node, line) {
           // Add data-line attribute for line numbers
           if (showLineNumbers) {
-            node.properties["data-line"] = line;
+            node.properties['data-line'] = line;
           }
           // Add highlight class for specified lines
           if (highlightedLines.has(line)) {
-            this.addClassToHast(node, "highlighted");
+            this.addClassToHast(node, 'highlighted');
           }
         },
       },
@@ -113,9 +98,6 @@ export async function highlightCode(
 }
 
 // Backward-compatible simple version for existing usage
-export async function highlightCodeSimple(
-  code: string,
-  lang: BundledLanguage = "tsx"
-): Promise<string> {
+export async function highlightCodeSimple(code: string, lang: BundledLanguage = 'tsx'): Promise<string> {
   return highlightCode(code, { lang });
 }

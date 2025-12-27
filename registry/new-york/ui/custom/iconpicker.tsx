@@ -1,24 +1,13 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { FolderKanban, Search } from "lucide-react";
-import { Button } from "../shadcn/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../shadcn/dialog";
-import { cn } from "@/lib/utils";
-import { Input } from "../shadcn/input";
-import {
-  formatProjectIconLabel,
-  normalizeProjectIconName,
-} from "../../lib/shadcn/utils";
-import { useMounted } from "../../hooks/use-mounted";
+import { FolderKanban, Search } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { useMounted } from '../../hooks/use-mounted';
+import { formatProjectIconLabel, normalizeProjectIconName } from '../../lib/shadcn/utils';
+import { Button } from '../shadcn/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../shadcn/dialog';
+import { Input } from '../shadcn/input';
 
 interface IconPickerContextValue {
   value: string;
@@ -48,30 +37,28 @@ interface IconPickerContextValue {
   allIconNames: string[];
 }
 
-const IconPickerContext = React.createContext<IconPickerContextValue | null>(
-  null
-);
+const IconPickerContext = React.createContext<IconPickerContextValue | null>(null);
 
 function useIconPicker() {
   const context = React.useContext(IconPickerContext);
   if (!context) {
-    throw new Error("useIconPicker must be used within an IconPicker");
+    throw new Error('useIconPicker must be used within an IconPicker');
   }
   return context;
 }
 
 function pascalToKebab(str: string): string {
   return str
-    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
     .toLowerCase();
 }
 
 function kebabToPascal(str: string): string {
   return str
-    .split("-")
+    .split('-')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join("");
+    .join('');
 }
 
 const iconCache = new Map<string, React.ComponentType<React.SVGProps<SVGSVGElement>> | null>();
@@ -86,9 +73,9 @@ const DynamicIcon = React.memo(function DynamicIcon({
   fallback: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   className?: string;
 } & React.SVGProps<SVGSVGElement>) {
-  const [IconComponent, setIconComponent] = React.useState<
-    React.ComponentType<React.SVGProps<SVGSVGElement>> | null
-  >(() => iconCache.get(name) || null);
+  const [IconComponent, setIconComponent] = React.useState<React.ComponentType<React.SVGProps<SVGSVGElement>> | null>(
+    () => iconCache.get(name) || null,
+  );
 
   React.useEffect(() => {
     const cached = iconCache.get(name);
@@ -102,15 +89,15 @@ const DynamicIcon = React.memo(function DynamicIcon({
     const loadIcon = async () => {
       try {
         const pascalName = kebabToPascal(name);
-        const iconModule = await import("lucide-react");
-        
+        const iconModule = await import('lucide-react');
+
         let Icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | undefined;
-        
+
         const directIcon = iconModule[pascalName as keyof typeof iconModule];
         if (directIcon) {
           Icon = directIcon as React.ComponentType<React.SVGProps<SVGSVGElement>>;
         }
-        
+
         if (!Icon) {
           const iconNameWithSuffix = `${pascalName}Icon`;
           const directIconWithSuffix = iconModule[iconNameWithSuffix as keyof typeof iconModule];
@@ -140,10 +127,20 @@ const DynamicIcon = React.memo(function DynamicIcon({
 
   if (IconComponent) {
     const Component = IconComponent;
-    return <Component className={className} {...props} />;
+    return (
+      <Component
+        className={className}
+        {...props}
+      />
+    );
   }
 
-  return <Fallback className={className} {...props} />;
+  return (
+    <Fallback
+      className={className}
+      {...props}
+    />
+  );
 });
 
 export interface IconPickerProps {
@@ -169,14 +166,10 @@ export function IconPicker({
   disabled,
   children,
 }: IconPickerProps) {
-  const [internalValue, setInternalValue] = React.useState<string>(
-    () => normalizeProjectIconName(defaultValue) ?? "folder-kanban"
-  );
+  const [internalValue, setInternalValue] = React.useState<string>(() => normalizeProjectIconName(defaultValue) ?? 'folder-kanban');
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
-  const [previewName, setPreviewName] = React.useState<string>(
-    () => normalizeProjectIconName(defaultValue) ?? "folder-kanban"
-  );
-  const [query, setQuery] = React.useState("");
+  const [previewName, setPreviewName] = React.useState<string>(() => normalizeProjectIconName(defaultValue) ?? 'folder-kanban');
+  const [query, setQuery] = React.useState('');
   const [scrollTop, setScrollTop] = React.useState(0);
   const [viewportHeight, setViewportHeight] = React.useState(0);
   const [columns, setColumns] = React.useState(4);
@@ -195,7 +188,7 @@ export function IconPicker({
       }
       onValueChange?.(newValue);
     },
-    [controlledValue, onValueChange]
+    [controlledValue, onValueChange],
   );
 
   const setOpen = React.useCallback(
@@ -205,7 +198,7 @@ export function IconPicker({
       }
       onOpenChange?.(newOpen);
     },
-    [controlledOpen, onOpenChange]
+    [controlledOpen, onOpenChange],
   );
 
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
@@ -221,35 +214,35 @@ export function IconPicker({
 
     iconsLoadedRef.current = true;
     setIsLoadingIcons(true);
-    
+
     const loadIconNames = async () => {
       try {
-        const iconModule = await import("lucide-react");
+        const iconModule = await import('lucide-react');
         const names: string[] = [];
         const moduleKeys = Object.keys(iconModule);
-        
+
         const skipKeys = new Set([
-          "createLucideIcon",
-          "default",
-          "icons",
-          "Icon",
-          "LucideIcon",
-          "IconNode",
-          "LucideProps",
-          "lucideReact",
-          "lucide-react"
+          'createLucideIcon',
+          'default',
+          'icons',
+          'Icon',
+          'LucideIcon',
+          'IconNode',
+          'LucideProps',
+          'lucideReact',
+          'lucide-react',
         ]);
-        
+
         const seenNames = new Set<string>();
-        
+
         for (const key of moduleKeys) {
-          if (skipKeys.has(key) || key.startsWith("_")) {
+          if (skipKeys.has(key) || key.startsWith('_')) {
             continue;
           }
 
           const exportValue = (iconModule as Record<string, unknown>)[key];
-          
-          if (typeof exportValue === "function" && key[0] && /[A-Z]/.test(key[0])) {
+
+          if (typeof exportValue === 'function' && key[0] && /[A-Z]/.test(key[0])) {
             const kebabName = pascalToKebab(key);
             if (!seenNames.has(kebabName)) {
               seenNames.add(kebabName);
@@ -257,19 +250,19 @@ export function IconPicker({
             }
           }
         }
-        
-        if (iconModule.icons && typeof iconModule.icons === "object") {
+
+        if (iconModule.icons && typeof iconModule.icons === 'object') {
           const iconsExport = iconModule.icons;
-          
-          if (typeof iconsExport === "object" && iconsExport !== null) {
+
+          if (typeof iconsExport === 'object' && iconsExport !== null) {
             const iconsObj = iconsExport as Record<string, unknown>;
             const iconObjKeys = Object.keys(iconsObj);
-            
+
             for (const key of iconObjKeys) {
-              if (key.endsWith("Icon")) {
+              if (key.endsWith('Icon')) {
                 continue;
               }
-              
+
               if (key[0] && /[A-Z]/.test(key[0])) {
                 const kebabName = pascalToKebab(key);
                 if (!seenNames.has(kebabName)) {
@@ -280,7 +273,7 @@ export function IconPicker({
             }
           }
         }
-        
+
         names.sort();
         setAllIconNames(names);
       } catch {
@@ -308,14 +301,14 @@ export function IconPicker({
   React.useEffect(() => {
     const wasOpen = prevOpenRef.current;
     prevOpenRef.current = open;
-    
+
     if (!open) return;
-    
+
     if (!wasOpen) {
-      const normalized = normalizeProjectIconName(value) ?? "folder-kanban";
+      const normalized = normalizeProjectIconName(value) ?? 'folder-kanban';
       setPreviewName(normalized);
       isHoveringRef.current = false;
-      setQuery("");
+      setQuery('');
       setScrollTop(0);
 
       requestAnimationFrame(() => {
@@ -331,13 +324,13 @@ export function IconPicker({
 
   React.useEffect(() => {
     if (!open || isHoveringRef.current) return;
-    const normalized = normalizeProjectIconName(value) ?? "folder-kanban";
+    const normalized = normalizeProjectIconName(value) ?? 'folder-kanban';
     setPreviewName(normalized);
   }, [value, open]);
 
   React.useEffect(() => {
     if (!open || !scrollRef.current) return;
-    
+
     if (scrollPositionRef.current > 0) {
       requestAnimationFrame(() => {
         if (scrollRef.current) {
@@ -345,7 +338,7 @@ export function IconPicker({
         }
       });
     }
-  }, [value, open]);
+  }, [open]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -362,8 +355,8 @@ export function IconPicker({
     };
 
     updateColumns();
-    window.addEventListener("resize", updateColumns);
-    return () => window.removeEventListener("resize", updateColumns);
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
   }, [open]);
 
   React.useEffect(() => {
@@ -404,7 +397,7 @@ export function IconPicker({
     if (hoverTimerRef.current) {
       window.clearTimeout(hoverTimerRef.current);
     }
-    const normalized = normalizeProjectIconName(value) ?? "folder-kanban";
+    const normalized = normalizeProjectIconName(value) ?? 'folder-kanban';
     hoverTimerRef.current = window.setTimeout(() => {
       setPreviewName(normalized);
     }, 75);
@@ -421,10 +414,7 @@ export function IconPicker({
   const rowHeight = 48;
   const totalRows = Math.ceil(iconList.length / columns);
   const startRow = Math.max(0, Math.floor(scrollTop / rowHeight) - 4);
-  const endRow = Math.min(
-    totalRows,
-    Math.ceil((scrollTop + viewportHeight) / rowHeight) + 4
-  );
+  const endRow = Math.min(totalRows, Math.ceil((scrollTop + viewportHeight) / rowHeight) + 4);
   const startIndex = startRow * columns;
   const endIndex = Math.min(iconList.length, endRow * columns);
   const visibleIcons = iconList.slice(startIndex, endIndex);
@@ -465,9 +455,7 @@ export function IconPicker({
       open,
       setOpen,
       previewName,
-      setPreviewName,
       query,
-      setQuery,
       deferredQuery,
       iconList,
       columns,
@@ -482,26 +470,24 @@ export function IconPicker({
       isLoadingIcons,
       mounted,
       allIconNames,
-    ]
+    ],
   );
 
   return (
     <IconPickerContext.Provider value={contextValue}>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+      >
         {children}
       </Dialog>
     </IconPickerContext.Provider>
   );
 }
 
-export interface IconPickerTriggerProps
-  extends React.ComponentProps<typeof DialogTrigger> {}
+export interface IconPickerTriggerProps extends React.ComponentProps<typeof DialogTrigger> {}
 
-export function IconPickerTrigger({
-  className,
-  children,
-  ...props
-}: IconPickerTriggerProps) {
+export function IconPickerTrigger({ className, children, ...props }: IconPickerTriggerProps) {
   const { disabled } = useIconPicker();
 
   return (
@@ -516,16 +502,15 @@ export function IconPickerTrigger({
   );
 }
 
-export interface IconPickerContentProps
-  extends React.ComponentProps<typeof DialogContent> {
+export interface IconPickerContentProps extends React.ComponentProps<typeof DialogContent> {
   title?: string;
   description?: string;
 }
 
 export function IconPickerContent({
   className,
-  title = "Select Icon",
-  description = "Choose any icon from Lucide.",
+  title = 'Select Icon',
+  description = 'Choose any icon from Lucide.',
   ...props
 }: IconPickerContentProps) {
   const {
@@ -541,7 +526,7 @@ export function IconPickerContent({
     color,
     scrollRef,
     searchInputRef,
-    scrollTop,
+    scrollTop: _scrollTop,
     setScrollTop,
     visibleIcons,
     paddingTop,
@@ -554,10 +539,10 @@ export function IconPickerContent({
   } = useIconPicker();
 
   const scrollPositionRef = React.useRef<number>(0);
-  
+
   React.useEffect(() => {
     if (!scrollRef.current) return;
-    
+
     if (scrollPositionRef.current > 0) {
       requestAnimationFrame(() => {
         if (scrollRef.current) {
@@ -565,15 +550,15 @@ export function IconPickerContent({
         }
       });
     }
-  }, [value, scrollRef]);
+  }, [scrollRef]);
 
-  const draft = React.useMemo(
-    () => normalizeProjectIconName(value) ?? "folder-kanban",
-    [value]
-  );
+  const draft = React.useMemo(() => normalizeProjectIconName(value) ?? 'folder-kanban', [value]);
 
   return (
-    <DialogContent className={cn("sm:max-w-3xl", className)} {...props}>
+    <DialogContent
+      className={cn('sm:max-w-3xl', className)}
+      {...props}
+    >
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>{description}</DialogDescription>
@@ -583,24 +568,17 @@ export function IconPickerContent({
         <div className="shrink-0 w-48">
           <div
             className="h-16 w-16 rounded-lg flex items-center justify-center border border-[var(--border)]"
-            style={{ backgroundColor: color || "var(--muted)" }}
+            style={{ backgroundColor: color || 'var(--muted)' }}
           >
             <DynamicIcon
               key={previewName}
               name={previewName}
               fallback={FolderKanban}
-              className={cn(
-                "h-8 w-8",
-                color ? "text-white" : "text-[var(--foreground)]"
-              )}
+              className={cn('h-8 w-8', color ? 'text-white' : 'text-[var(--foreground)]')}
             />
           </div>
-          <div className="mt-2 h-5 text-sm font-medium truncate">
-            {formatProjectIconLabel(previewName)}
-          </div>
-          <div className="h-4 text-xs text-[var(--muted-foreground)] truncate">
-            {previewName}
-          </div>
+          <div className="mt-2 h-5 text-sm font-medium truncate">{formatProjectIconLabel(previewName)}</div>
+          <div className="h-4 text-xs text-[var(--muted-foreground)] truncate">{previewName}</div>
         </div>
 
         <div className="flex-1">
@@ -656,10 +634,10 @@ export function IconPickerContent({
               <div style={{ paddingTop, paddingBottom }}>
                 <div
                   className={cn(
-                    "grid gap-2",
-                    columns === 2 && "grid-cols-2",
-                    columns === 3 && "grid-cols-3",
-                    columns === 4 && "grid-cols-4"
+                    'grid gap-2',
+                    columns === 2 && 'grid-cols-2',
+                    columns === 3 && 'grid-cols-3',
+                    columns === 4 && 'grid-cols-4',
                   )}
                 >
                   {visibleIcons.map((name) => {
@@ -669,19 +647,18 @@ export function IconPickerContent({
                       <button
                         key={name}
                         type="button"
-                      onMouseEnter={() => onHoverIcon(name)}
-                      onMouseLeave={onUnhoverIcon}
-                      onClick={() => {
-                        if (scrollRef.current) {
-                          scrollPositionRef.current = scrollRef.current.scrollTop;
-                        }
-                        setValue(name);
-                      }}
+                        onMouseEnter={() => onHoverIcon(name)}
+                        onMouseLeave={onUnhoverIcon}
+                        onClick={() => {
+                          if (scrollRef.current) {
+                            scrollPositionRef.current = scrollRef.current.scrollTop;
+                          }
+                          setValue(name);
+                        }}
                         className={cn(
-                          "h-10 rounded-md border border-[var(--border)] px-2 text-left text-sm flex items-center gap-2 transition-colors",
-                          "hover:bg-[var(--accent)]",
-                          isSelected &&
-                            "ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]"
+                          'h-10 rounded-md border border-[var(--border)] px-2 text-left text-sm flex items-center gap-2 transition-colors',
+                          'hover:bg-[var(--accent)]',
+                          isSelected && 'ring-2 ring-[var(--ring)] ring-offset-2 ring-offset-[var(--background)]',
                         )}
                       >
                         <span className="inline-flex h-6 w-6 items-center justify-center rounded bg-[var(--muted)] shrink-0">
@@ -692,9 +669,7 @@ export function IconPickerContent({
                             className="h-4 w-4 text-[var(--foreground)]"
                           />
                         </span>
-                        <span className="truncate flex-1">
-                          {formatProjectIconLabel(name)}
-                        </span>
+                        <span className="truncate flex-1">{formatProjectIconLabel(name)}</span>
                       </button>
                     );
                   })}
@@ -727,28 +702,17 @@ export function IconPickerContent({
   );
 }
 
-export interface IconPickerPreviewProps
-  extends React.ComponentProps<"div"> {
+export interface IconPickerPreviewProps extends React.ComponentProps<'div'> {
   size?: number;
 }
 
-export function IconPickerPreview({
-  className,
-  size = 24,
-  ...props
-}: IconPickerPreviewProps) {
+export function IconPickerPreview({ className, size = 24, ...props }: IconPickerPreviewProps) {
   const { value, color } = useIconPicker();
-  const iconName = React.useMemo(
-    () => normalizeProjectIconName(value) ?? "folder-kanban",
-    [value]
-  );
+  const iconName = React.useMemo(() => normalizeProjectIconName(value) ?? 'folder-kanban', [value]);
 
   return (
     <div
-      className={cn(
-        "inline-flex items-center justify-center",
-        className
-      )}
+      className={cn('inline-flex items-center justify-center', className)}
       {...props}
     >
       <DynamicIcon
@@ -756,9 +720,7 @@ export function IconPickerPreview({
         fallback={FolderKanban}
         width={size}
         height={size}
-        className={cn(
-          color ? "text-white" : "text-[var(--foreground)]"
-        )}
+        className={cn(color ? 'text-white' : 'text-[var(--foreground)]')}
       />
     </div>
   );

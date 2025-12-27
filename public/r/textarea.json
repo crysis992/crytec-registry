@@ -3,9 +3,7 @@
   "name": "textarea",
   "title": "Textarea",
   "description": "A multi-line text input component.",
-  "registryDependencies": [
-    "utils"
-  ],
+  "registryDependencies": ["utils"],
   "files": [
     {
       "path": "registry/new-york/ui/shadcn/textarea.tsx",

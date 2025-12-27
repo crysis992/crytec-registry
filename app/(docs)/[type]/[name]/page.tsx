@@ -1,17 +1,12 @@
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { PageHeader } from "@/docs/components/page-header";
-import { InstallationSection } from "@/docs/components/installation-section";
-import { TableOfContents, defaultTocItems } from "@/docs/components/toc";
-import { ComingSoonDoc } from "@/docs/components/coming-soon";
-import {
-  getRegistryItem,
-  getComponentSource,
-  hasDocumentation,
-  getUrlTypeFromRegistryType,
-} from "@/lib/registry";
-import { siteConfig } from "@/site";
-import type { DocComponent } from "@/docs/types";
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import { ComingSoonDoc } from '@/docs/components/coming-soon';
+import { InstallationSection } from '@/docs/components/installation-section';
+import { PageHeader } from '@/docs/components/page-header';
+import { defaultTocItems, TableOfContents } from '@/docs/components/toc';
+import type { DocComponent } from '@/docs/types';
+import { getComponentSource, getRegistryItem, getUrlTypeFromRegistryType, hasDocumentation } from '@/lib/registry';
+import { siteConfig } from '@/site';
 
 interface PageProps {
   params: Promise<{
@@ -23,7 +18,7 @@ interface PageProps {
 export async function generateStaticParams() {
   // Generate params for all registry items (not just those with docs)
   // This allows components without docs to show the "Coming Soon" page
-  const { getRegistryItems, getUrlTypeFromRegistryType } = await import("@/lib/registry");
+  const { getRegistryItems, getUrlTypeFromRegistryType } = await import('@/lib/registry');
   const items = getRegistryItems();
   return items.map((item) => ({
     type: getUrlTypeFromRegistryType(item.type),
@@ -50,18 +45,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
  */
 function toPascalCase(str: string): string {
   return str
-    .split("-")
+    .split('-')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join("");
+    .join('');
 }
 
 /**
  * Dynamically import a documentation component
  */
-async function getDocComponent(
-  name: string,
-  type: string
-): Promise<DocComponent | null> {
+async function getDocComponent(name: string, type: string): Promise<DocComponent | null> {
   // Check if documentation exists
   if (!hasDocumentation(name, type)) {
     return null;
@@ -70,20 +62,18 @@ async function getDocComponent(
   try {
     const urlType = getUrlTypeFromRegistryType(type);
     const module = await import(`@/docs/content/${urlType}/${name}`);
-    
+
     // Try common export name patterns:
     // 1. PascalCase + "Doc" (e.g., CodeblockDoc, UseMountedDoc)
     // 2. default export
     const pascalName = toPascalCase(name);
-    const Component =
-      module[`${pascalName}Doc`] ||
-      module.default;
-    
+    const Component = module[`${pascalName}Doc`] || module.default;
+
     if (!Component) {
       console.warn(`No valid export found in docs/content/${urlType}/${name}.tsx`);
       return null;
     }
-    
+
     return Component as DocComponent;
   } catch (error) {
     console.error(`Failed to load doc component for ${name}:`, error);
@@ -92,7 +82,7 @@ async function getDocComponent(
 }
 
 export default async function DocPage({ params }: PageProps) {
-  const { name, type } = await params;
+  const { name } = await params;
   const item = getRegistryItem(name);
 
   if (!item) {
@@ -101,7 +91,7 @@ export default async function DocPage({ params }: PageProps) {
 
   // Try to load the documentation component dynamically
   let ContentComponent: DocComponent | null = null;
-  
+
   if (hasDocumentation(name, item.type)) {
     ContentComponent = await getDocComponent(name, item.type);
   }
@@ -112,13 +102,16 @@ export default async function DocPage({ params }: PageProps) {
   }
 
   // Get source code for the component
-  const sourceCode = item.files[0] ? getComponentSource(item.files[0].path) : "";
+  const sourceCode = item.files[0] ? getComponentSource(item.files[0].path) : '';
 
   return (
     <div className="flex gap-6">
       <article className="flex-1 min-w-0">
         <div className="space-y-10">
-          <PageHeader title={item.title} description={item.description} />
+          <PageHeader
+            title={item.title}
+            description={item.description}
+          />
 
           <InstallationSection
             name={item.name}

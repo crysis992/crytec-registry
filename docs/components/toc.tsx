@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 interface TocItem {
   id: string;
@@ -14,7 +14,7 @@ interface TableOfContentsProps {
 }
 
 export function TableOfContents({ items }: TableOfContentsProps) {
-  const [activeId, setActiveId] = React.useState<string>("");
+  const [activeId, setActiveId] = React.useState<string>('');
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,7 +25,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
           }
         });
       },
-      { rootMargin: "-80px 0px -80% 0px" }
+      { rootMargin: '-80px 0px -80% 0px' },
     );
 
     items.forEach((item) => {
@@ -55,15 +55,15 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById(item.id)?.scrollIntoView({
-                      behavior: "smooth",
+                      behavior: 'smooth',
                     });
                   }}
                   className={cn(
-                    "block transition-colors",
-                    item.level === 3 && "pl-4",
+                    'block transition-colors',
+                    item.level === 3 && 'pl-4',
                     activeId === item.id
-                      ? "text-[var(--foreground)] font-medium"
-                      : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+                      ? 'text-[var(--foreground)] font-medium'
+                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]',
                   )}
                 >
                   {item.title}
@@ -78,9 +78,9 @@ export function TableOfContents({ items }: TableOfContentsProps) {
 }
 
 export const defaultTocItems: TocItem[] = [
-  { id: "installation", title: "Installation", level: 2 },
-  { id: "usage", title: "Usage", level: 2 },
-  { id: "examples", title: "Examples", level: 2 },
-  { id: "api-reference", title: "API Reference", level: 2 },
-  { id: "source", title: "Source Code", level: 2 },
+  { id: 'installation', title: 'Installation', level: 2 },
+  { id: 'usage', title: 'Usage', level: 2 },
+  { id: 'examples', title: 'Examples', level: 2 },
+  { id: 'api-reference', title: 'API Reference', level: 2 },
+  { id: 'source', title: 'Source Code', level: 2 },
 ];

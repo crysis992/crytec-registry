@@ -1,39 +1,35 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import Image from "next/image";
-import {
-  Comparison,
-  ComparisonItem,
-  ComparisonHandle,
-} from "@/registry/new-york/ui/custom/comparison";
-import { PreviewTabs } from "@/docs/components/component-preview";
-import { SimpleCodeblock } from "@/docs/components/simple-codeblock";
-import { PropsTable } from "@/docs/components/props-table";
-import type { PropDefinition } from "@/docs/types";
+import Image from 'next/image';
+import * as React from 'react';
+import { PreviewTabs } from '@/docs/components/component-preview';
+import { PropsTable } from '@/docs/components/props-table';
+import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
+import type { PropDefinition } from '@/docs/types';
+import { Comparison, ComparisonHandle, ComparisonItem } from '@/registry/new-york/ui/custom/comparison';
 
 const comparisonProps: PropDefinition[] = [
   {
-    name: "mode",
+    name: 'mode',
     type: '"hover" | "drag"',
     defaultValue: '"drag"',
     description: "Interaction mode. 'hover' follows mouse position, 'drag' requires click and drag.",
   },
   {
-    name: "onDragStart",
-    type: "() => void",
-    description: "Callback fired when dragging starts (drag mode only).",
+    name: 'onDragStart',
+    type: '() => void',
+    description: 'Callback fired when dragging starts (drag mode only).',
   },
   {
-    name: "onDragEnd",
-    type: "() => void",
-    description: "Callback fired when dragging ends (drag mode only).",
+    name: 'onDragEnd',
+    type: '() => void',
+    description: 'Callback fired when dragging ends (drag mode only).',
   },
 ];
 
 const comparisonItemProps: PropDefinition[] = [
   {
-    name: "position",
+    name: 'position',
     type: '"left" | "right"',
     required: true,
     description: "Position of the item. 'left' is revealed from left, 'right' from right.",
@@ -42,9 +38,9 @@ const comparisonItemProps: PropDefinition[] = [
 
 const comparisonHandleProps: PropDefinition[] = [
   {
-    name: "children",
-    type: "ReactNode",
-    description: "Custom handle content. Defaults to a vertical line with grip icon (drag mode only).",
+    name: 'children',
+    type: 'ReactNode',
+    description: 'Custom handle content. Defaults to a vertical line with grip icon (drag mode only).',
   },
 ];
 
@@ -141,8 +137,14 @@ const dragWithHandlersCode = `function ComparisonWithHandlers() {
 
 function HoverModeDemo() {
   return (
-    <Comparison className="aspect-video" mode="hover">
-      <ComparisonItem className="bg-red-500" position="left">
+    <Comparison
+      className="aspect-video"
+      mode="hover"
+    >
+      <ComparisonItem
+        className="bg-red-500"
+        position="left"
+      >
         <Image
           alt="Placeholder 1"
           className="opacity-50"
@@ -152,7 +154,10 @@ function HoverModeDemo() {
           width={1920}
         />
       </ComparisonItem>
-      <ComparisonItem className="bg-blue-500" position="right">
+      <ComparisonItem
+        className="bg-blue-500"
+        position="right"
+      >
         <Image
           alt="Placeholder 2"
           className="opacity-50"
@@ -177,7 +182,10 @@ function DragWithHandlersDemo() {
       onDragStart={() => setIsDragging(true)}
       onDragEnd={() => setIsDragging(false)}
     >
-      <ComparisonItem className="bg-red-500" position="left">
+      <ComparisonItem
+        className="bg-red-500"
+        position="left"
+      >
         <Image
           alt="Placeholder 1"
           className="opacity-50"
@@ -187,7 +195,10 @@ function DragWithHandlersDemo() {
           width={1920}
         />
       </ComparisonItem>
-      <ComparisonItem className="bg-blue-500" position="right">
+      <ComparisonItem
+        className="bg-blue-500"
+        position="right"
+      >
         <Image
           alt="Placeholder 2"
           className="opacity-50"
@@ -215,25 +226,34 @@ export function ComparisonDoc({ sourceCode }: ComparisonDocProps) {
   return (
     <div className="space-y-10">
       <section>
-        <h2 id="usage" className="text-2xl font-semibold mb-4">
+        <h2
+          id="usage"
+          className="text-2xl font-semibold mb-4"
+        >
           Usage
         </h2>
         <div className="space-y-3">
           <p className="text-[var(--muted-foreground)]">
-            Comparison is an interactive component for showcasing side-by-side comparisons,
-            perfect for before/after images, design iterations, or any visual comparisons.
+            Comparison is an interactive component for showcasing side-by-side comparisons, perfect for before/after images, design
+            iterations, or any visual comparisons.
           </p>
           <p className="text-[var(--muted-foreground)]">
-            It supports two interaction modes: <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">hover</code> for
-            quick exploration and <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">drag</code> for precise control.
-            The component uses Framer Motion for smooth animations and is fully accessible.
+            It supports two interaction modes: <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">hover</code> for quick
+            exploration and <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">drag</code> for precise control. The component
+            uses Framer Motion for smooth animations and is fully accessible.
           </p>
         </div>
 
         <PreviewTabs
           preview={
-            <Comparison className="aspect-video" mode="drag">
-              <ComparisonItem className="bg-red-500" position="left">
+            <Comparison
+              className="aspect-video"
+              mode="drag"
+            >
+              <ComparisonItem
+                className="bg-red-500"
+                position="left"
+              >
                 <Image
                   alt="Before"
                   className="opacity-50"
@@ -243,7 +263,10 @@ export function ComparisonDoc({ sourceCode }: ComparisonDocProps) {
                   width={1920}
                 />
               </ComparisonItem>
-              <ComparisonItem className="bg-blue-500" position="right">
+              <ComparisonItem
+                className="bg-blue-500"
+                position="right"
+              >
                 <Image
                   alt="After"
                   className="opacity-50"
@@ -256,12 +279,20 @@ export function ComparisonDoc({ sourceCode }: ComparisonDocProps) {
               <ComparisonHandle />
             </Comparison>
           }
-          codeBlock={<SimpleCodeblock code={usageCode} language="tsx" />}
+          codeBlock={
+            <SimpleCodeblock
+              code={usageCode}
+              language="tsx"
+            />
+          }
         />
       </section>
 
       <section>
-        <h2 id="examples" className="text-2xl font-semibold mb-4">
+        <h2
+          id="examples"
+          className="text-2xl font-semibold mb-4"
+        >
           Examples
         </h2>
 
@@ -269,12 +300,17 @@ export function ComparisonDoc({ sourceCode }: ComparisonDocProps) {
           <div>
             <h3 className="text-lg font-medium mb-3">Hover Mode</h3>
             <p className="text-[var(--muted-foreground)] mb-4">
-              In hover mode, the slider follows your mouse cursor automatically.
-              Perfect for quick comparisons without requiring click and drag.
+              In hover mode, the slider follows your mouse cursor automatically. Perfect for quick comparisons without requiring click and
+              drag.
             </p>
             <PreviewTabs
               preview={<HoverModeDemo />}
-              codeBlock={<SimpleCodeblock code={hoverModeCode} language="tsx" />}
+              codeBlock={
+                <SimpleCodeblock
+                  code={hoverModeCode}
+                  language="tsx"
+                />
+              }
             />
           </div>
 
@@ -282,19 +318,27 @@ export function ComparisonDoc({ sourceCode }: ComparisonDocProps) {
             <h3 className="text-lg font-medium mb-3">Drag Mode with Handlers</h3>
             <p className="text-[var(--muted-foreground)] mb-4">
               Use <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm">onDragStart</code> and
-              <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm ml-1">onDragEnd</code> callbacks
-              to track drag state and provide visual feedback or perform actions.
+              <code className="rounded bg-[var(--muted)] px-1.5 py-0.5 text-sm ml-1">onDragEnd</code> callbacks to track drag state and
+              provide visual feedback or perform actions.
             </p>
             <PreviewTabs
               preview={<DragWithHandlersDemo />}
-              codeBlock={<SimpleCodeblock code={dragWithHandlersCode} language="tsx" />}
+              codeBlock={
+                <SimpleCodeblock
+                  code={dragWithHandlersCode}
+                  language="tsx"
+                />
+              }
             />
           </div>
         </div>
       </section>
 
       <section>
-        <h2 id="api-reference" className="text-2xl font-semibold mb-4">
+        <h2
+          id="api-reference"
+          className="text-2xl font-semibold mb-4"
+        >
           API Reference
         </h2>
 
@@ -317,10 +361,17 @@ export function ComparisonDoc({ sourceCode }: ComparisonDocProps) {
       </section>
 
       <section>
-        <h2 id="source" className="text-2xl font-semibold mb-4">
+        <h2
+          id="source"
+          className="text-2xl font-semibold mb-4"
+        >
           Source Code
         </h2>
-        <SimpleCodeblock code={sourceCode} filename="comparison.tsx" language="tsx" />
+        <SimpleCodeblock
+          code={sourceCode}
+          filename="comparison.tsx"
+          language="tsx"
+        />
       </section>
     </div>
   );

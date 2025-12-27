@@ -1,13 +1,7 @@
-import Link from "next/link";
-import { getDocsConfig } from "@/docs/nav";
-import { siteConfig } from "@/site";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/registry/new-york/ui/shadcn/card";
-import { getRegistryItemsWithStatus } from "@/lib/registry";
+import Link from 'next/link';
+import { getRegistryItemsWithStatus } from '@/lib/registry';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/registry/new-york/ui/shadcn/card';
+import { siteConfig } from '@/site';
 
 export default function DocsPage() {
   const allItems = getRegistryItemsWithStatus();
@@ -19,25 +13,25 @@ export default function DocsPage() {
       acc[item.urlType].push(item);
       return acc;
     },
-    {} as Record<string, typeof allItems>
+    {} as Record<string, typeof allItems>,
   );
 
   const typeLabels: Record<string, string> = {
-    ui: "Components",
-    hooks: "Hooks",
-    lib: "Library",
-    blocks: "Blocks",
+    ui: 'Components',
+    hooks: 'Hooks',
+    lib: 'Library',
+    blocks: 'Blocks',
   };
 
-  const typeOrder = ["ui", "hooks", "lib", "blocks"];
+  const typeOrder = ['ui', 'hooks', 'lib', 'blocks'];
 
   return (
     <div className="space-y-8">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold tracking-tight">Documentation</h1>
         <p className="text-lg text-[var(--muted-foreground)] max-w-2xl">
-          Welcome to the {siteConfig.name} documentation. Browse our collection of
-          components, hooks, and utilities for building your next project.
+          Welcome to the {siteConfig.name} documentation. Browse our collection of components, hooks, and utilities for building your next
+          project.
         </p>
         <p className="text-sm text-[var(--muted-foreground)]">
           {allItems.length} total items • {allItems.filter((i) => i.hasDocs).length} with documentation
@@ -46,9 +40,7 @@ export default function DocsPage() {
 
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold">Installation</h2>
-        <p className="text-[var(--muted-foreground)]">
-          Install components directly into your project using the shadcn CLI:
-        </p>
+        <p className="text-[var(--muted-foreground)]">Install components directly into your project using the shadcn CLI:</p>
         <code className="block px-4 py-3 bg-[var(--muted)] rounded-lg text-sm font-mono">
           npx shadcn@latest add {siteConfig.url}/r/[component].json
         </code>
@@ -61,9 +53,7 @@ export default function DocsPage() {
 
           return (
             <div key={type}>
-              <h2 className="text-2xl font-semibold mb-4">
-                {typeLabels[type] || type}
-              </h2>
+              <h2 className="text-2xl font-semibold mb-4">{typeLabels[type] || type}</h2>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((item) => (
                   <Link
@@ -81,9 +71,7 @@ export default function DocsPage() {
                             </span>
                           )}
                         </div>
-                        <CardDescription className="line-clamp-2">
-                          {item.description}
-                        </CardDescription>
+                        <CardDescription className="line-clamp-2">{item.description}</CardDescription>
                       </CardHeader>
                     </Card>
                   </Link>

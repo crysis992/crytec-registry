@@ -3,18 +3,8 @@
   "name": "example-form",
   "title": "Example Form",
   "description": "A contact form with Zod validation and React Hook Form integration.",
-  "dependencies": [
-    "zod",
-    "react-hook-form",
-    "@hookform/resolvers"
-  ],
-  "registryDependencies": [
-    "button",
-    "input",
-    "label",
-    "textarea",
-    "card"
-  ],
+  "dependencies": ["zod", "react-hook-form", "@hookform/resolvers"],
+  "registryDependencies": ["button", "input", "label", "textarea", "card"],
   "files": [
     {
       "path": "registry/new-york/blocks/example-form/page.tsx",
