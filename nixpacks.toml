@@ -1,13 +1,14 @@
 [phases.setup]
-providers = ["nodejs_25", "npm-10_x", "openssl", "curl", "wget"]
+nixPkgs = ["nodejs_23", "npm-10_x"]
+aptPkgs = ["openssl", "curl", "wget"]
 
 [phases.install]
 cmds = ["npm ci --legacy-peer-deps"]
-nixPkgs = ["nodejs_25", "npm-10_x"]
+nixPkgs = ["nodejs_23", "npm-10_x"]
 
 [phases.build]
 cmds = ["npm run build"]
-nixPkgs = ["nodejs_25"]
+nixPkgs = ["nodejs_23"]
 
 [start]
 cmd = "npm run start"
