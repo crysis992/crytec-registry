@@ -19,7 +19,7 @@
       "recommended": true,
       "complexity": { "useArrowFunction": "off", "noStaticOnlyClass": "off" },
       "a11y": "off",
-      "suspicious": { "noExplicitAny": "off", "noUnknownAtRules": "off" },
+      "suspicious": { "noExplicitAny": "off", "noUnknownAtRules": "off", "noArrayIndexKey": "off" },
       "correctness": {
         "useUniqueElementIds": "off"
       },

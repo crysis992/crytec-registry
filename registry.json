@@ -60,6 +60,20 @@
       ]
     },
     {
+      "name": "rating",
+      "type": "registry:ui",
+      "title": "Rating",
+      "description": "An accessible rating component with half-value support, keyboard navigation, and form integration.",
+      "dependencies": ["@radix-ui/react-slot", "@radix-ui/react-direction", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/new-york/ui/custom/rating.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
