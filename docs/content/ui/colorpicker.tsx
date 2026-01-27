@@ -118,7 +118,7 @@ export function ColorPickerExample() {
 
   return (
     <ColorPicker value={color} onValueChange={setColor}>
-      <ColorPickerTrigger asChild>
+      <ColorPickerTrigger>
         <Button variant="outline" className="flex items-center gap-2">
           <ColorPickerSwatch className="size-4" />
           Pick Color
@@ -162,7 +162,7 @@ const controlledCode = `function ColorPickerControlledDemo() {
           onOpenChange={setIsOpen}
           defaultFormat="hex"
         >
-          <ColorPickerTrigger asChild>
+          <ColorPickerTrigger>
             <Button variant="outline" className="flex items-center gap-2">
               <ColorPickerSwatch className="size-4" />
               Pick Color
@@ -221,7 +221,7 @@ const minimalCode = `function MinimalColorPicker() {
 
   return (
     <ColorPicker value={color} onValueChange={setColor}>
-      <ColorPickerTrigger asChild>
+      <ColorPickerTrigger>
         <Button variant="outline" className="flex items-center gap-2">
           <ColorPickerSwatch className="size-4" />
           {color}
@@ -241,7 +241,7 @@ const customFormatCode = `function CustomFormatColorPicker() {
 
   return (
     <ColorPicker value={color} onValueChange={setColor} defaultFormat="rgb">
-      <ColorPickerTrigger asChild>
+      <ColorPickerTrigger>
         <Button variant="outline" className="flex items-center gap-2">
           <ColorPickerSwatch className="size-4" />
           Pick Color
@@ -267,7 +267,7 @@ function BasicDemo() {
       value={color}
       onValueChange={setColor}
     >
-      <ColorPickerTrigger asChild>
+      <ColorPickerTrigger>
         <Button
           variant="outline"
           className="flex items-center gap-2"
@@ -325,7 +325,7 @@ function ControlledDemo() {
           onOpenChange={setIsOpen}
           defaultFormat="hex"
         >
-          <ColorPickerTrigger asChild>
+          <ColorPickerTrigger>
             <Button
               variant="outline"
               className="flex items-center gap-2"
@@ -393,7 +393,7 @@ function MinimalDemo() {
       value={color}
       onValueChange={setColor}
     >
-      <ColorPickerTrigger asChild>
+      <ColorPickerTrigger>
         <Button
           variant="outline"
           className="flex items-center gap-2"
@@ -420,7 +420,7 @@ function CustomFormatDemo() {
       onValueChange={setColor}
       defaultFormat="rgb"
     >
-      <ColorPickerTrigger asChild>
+      <ColorPickerTrigger>
         <Button
           variant="outline"
           className="flex items-center gap-2"

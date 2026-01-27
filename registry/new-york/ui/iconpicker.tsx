@@ -510,20 +510,20 @@ export function IconPicker({
   );
 }
 
-export interface IconPickerTriggerProps extends React.ComponentProps<typeof DialogTrigger> {}
+export interface IconPickerTriggerProps extends Omit<React.ComponentProps<typeof DialogTrigger>, 'render'> {
+  children: React.ReactElement;
+}
 
 export function IconPickerTrigger({ className, children, ...props }: IconPickerTriggerProps) {
   const { disabled } = useIconPicker();
 
   return (
     <DialogTrigger
-      asChild
+      render={children}
       disabled={disabled}
       className={className}
       {...props}
-    >
-      {children}
-    </DialogTrigger>
+    />
   );
 }
 

@@ -8,7 +8,7 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "https://ui.shadcn.com/r/styles/new-york/utils.json"
+    "https://ui.shadcn.com/r/styles/base-vega/utils.json"
   ],
   "files": [
     {

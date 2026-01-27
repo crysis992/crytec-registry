@@ -1,7 +1,5 @@
 'use client';
 
-import { useDirection } from '@radix-ui/react-direction';
-import { Slot } from '@radix-ui/react-slot';
 import { Star } from 'lucide-react';
 import {
   type ComponentProps,
@@ -25,6 +23,29 @@ import {
   useSyncExternalStore,
 } from 'react';
 import { cn } from '@/lib/utils';
+
+// ============================================================================
+// Custom useDirection hook (replaces @radix-ui/react-direction)
+// ============================================================================
+
+type Direction = 'ltr' | 'rtl';
+
+function useDirection(dirProp?: Direction): Direction {
+  const [dir, setDir] = useState<Direction>(dirProp || 'ltr');
+
+  useEffect(() => {
+    if (dirProp) {
+      setDir(dirProp);
+      return;
+    }
+    if (typeof document !== 'undefined') {
+      const documentDir = document.documentElement.dir as Direction;
+      setDir(documentDir === 'rtl' ? 'rtl' : 'ltr');
+    }
+  }, [dirProp]);
+
+  return dir;
+}
 
 // ============================================================================
 // Utility: Isomorphic Layout Effect
@@ -238,7 +259,6 @@ function VisuallyHiddenInput<T = InputValue>(props: VisuallyHiddenInputProps<T>)
 // Rating Component Types
 // ============================================================================
 
-type Direction = 'ltr' | 'rtl';
 type Orientation = 'horizontal' | 'vertical';
 type ActivationMode = 'automatic' | 'manual';
 type Size = 'default' | 'sm' | 'lg';
@@ -403,7 +423,6 @@ export interface RatingProps extends ComponentProps<'div'> {
   dir?: Direction;
   orientation?: Orientation;
   size?: Size;
-  asChild?: boolean;
   step?: Step;
   clearable?: boolean;
   disabled?: boolean;
@@ -427,7 +446,6 @@ export function Rating(props: RatingProps) {
     max = 5,
     step = 1,
     clearable = false,
-    asChild,
     disabled = false,
     readOnly = false,
     required = false,
@@ -630,13 +648,11 @@ export function Rating(props: RatingProps) {
     [tabStopId, onItemFocus, onItemShiftTab, onFocusableItemAdd, onFocusableItemRemove, onItemRegister, onItemUnregister, getItems],
   );
 
-  const RootPrimitive = asChild ? Slot : 'div';
-
   return (
     <StoreContext.Provider value={store}>
       <RatingContext.Provider value={contextValue}>
         <FocusContext.Provider value={focusContextValue}>
-          <RootPrimitive
+          <div
             id={rootId}
             role="radiogroup"
             aria-orientation={orientation}
@@ -718,14 +734,12 @@ export function Rating(props: RatingProps) {
 
 export interface RatingItemProps extends Omit<ComponentProps<'button'>, 'children'> {
   index?: number;
-  asChild?: boolean;
   children?: ReactNode | ((dataState: DataState) => ReactNode);
 }
 
 export function RatingItem(props: RatingItemProps) {
   const {
     index,
-    asChild,
     onClick: onClickProp,
     onFocus: onFocusProp,
     onKeyDown: onKeyDownProp,
@@ -986,10 +1000,8 @@ export function RatingItem(props: RatingItemProps) {
 
   const dataState: DataState = isFilled ? 'full' : isPartiallyFilled ? 'partial' : 'empty';
 
-  const ItemPrimitive = asChild ? Slot : 'button';
-
   return (
-    <ItemPrimitive
+    <button
       role="radio"
       type="button"
       id={itemId}
@@ -1025,6 +1037,6 @@ export function RatingItem(props: RatingItemProps) {
       onMouseMove={onMouseMove}
     >
       {typeof children === 'function' ? children(dataState) : (children ?? <Star />)}
-    </ItemPrimitive>
+    </button>
   );
 }

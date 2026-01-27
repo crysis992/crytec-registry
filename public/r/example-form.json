@@ -9,11 +9,11 @@
     "@hookform/resolvers"
   ],
   "registryDependencies": [
-    "https://ui.shadcn.com/r/styles/new-york/button.json",
-    "https://ui.shadcn.com/r/styles/new-york/input.json",
-    "https://ui.shadcn.com/r/styles/new-york/label.json",
-    "https://ui.shadcn.com/r/styles/new-york/textarea.json",
-    "https://ui.shadcn.com/r/styles/new-york/card.json"
+    "https://ui.shadcn.com/r/styles/base-vega/button.json",
+    "https://ui.shadcn.com/r/styles/base-vega/input.json",
+    "https://ui.shadcn.com/r/styles/base-vega/label.json",
+    "https://ui.shadcn.com/r/styles/base-vega/textarea.json",
+    "https://ui.shadcn.com/r/styles/base-vega/card.json"
   ],
   "files": [
     {

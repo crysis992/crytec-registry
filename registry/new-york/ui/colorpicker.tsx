@@ -383,20 +383,20 @@ export function ColorPicker({
  * ColorPickerTrigger
  * -------------------------------------------------------------------------- */
 
-export interface ColorPickerTriggerProps extends React.ComponentProps<typeof PopoverTrigger> {}
+export interface ColorPickerTriggerProps extends Omit<React.ComponentProps<typeof PopoverTrigger>, 'render'> {
+  children: React.ReactElement;
+}
 
 export function ColorPickerTrigger({ className, children, ...props }: ColorPickerTriggerProps) {
   const { disabled } = useColorPicker();
 
   return (
     <PopoverTrigger
-      asChild
+      render={children}
       disabled={disabled}
       className={className}
       {...props}
-    >
-      {children}
-    </PopoverTrigger>
+    />
   );
 }
 

@@ -75,9 +75,9 @@ export default function ShowcasePage() {
   const stats = {
     total: allItems.length,
     withDocs: allItems.filter((i) => i.hasDocs).length,
-    ui: itemsByType['ui']?.length || 0,
-    hooks: itemsByType['hooks']?.length || 0,
-    blocks: itemsByType['blocks']?.length || 0,
+    ui: itemsByType.ui?.length || 0,
+    hooks: itemsByType.hooks?.length || 0,
+    blocks: itemsByType.blocks?.length || 0,
   };
 
   return (

@@ -10,7 +10,9 @@
       "WebFetch(domain:shiki.style)",
       "Bash(npx tsc:*)",
       "Bash(npx shadcn@latest add:*)",
-      "Bash(npm run registry:build:*)"
+      "Bash(npm run registry:build:*)",
+      "Bash(npx biome check:*)",
+      "Bash(node -e \"import\\(''react-resizable-panels''\\).then\\(m => console.log\\(Object.keys\\(m\\).join\\('', ''\\)\\)\\)\")"
     ]
   }
 }
