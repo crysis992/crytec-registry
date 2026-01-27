@@ -3,13 +3,8 @@
   "name": "comparison",
   "title": "Comparison",
   "description": "An interactive image comparison component with hover and drag modes.",
-  "dependencies": [
-    "motion",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "https://ui.shadcn.com/r/styles/base-vega/utils.json"
-  ],
+  "dependencies": ["motion", "lucide-react"],
+  "registryDependencies": ["https://ui.shadcn.com/r/styles/base-vega/utils.json"],
   "files": [
     {
       "path": "registry/new-york/ui/comparison.tsx",

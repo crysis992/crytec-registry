@@ -5,6 +5,7 @@ import * as React from 'react';
 import type { BundledLanguage, BundledTheme, ShikiTransformer } from 'shiki';
 
 import { cn } from '@/lib/utils';
+import { useMounted } from '@/registry/new-york/hooks/use-mounted';
 
 /* -----------------------------------------------------------------------------
  * Types
@@ -71,7 +72,8 @@ function CodeBlock({
 }: CodeBlockProps) {
   const [activeValue, setActiveValue] = React.useState(defaultValue ?? data[0]?.value ?? '');
   const [highlightedCode, setHighlightedCode] = React.useState<Map<string, string>>(new Map());
-  const [isLoading, setIsLoading] = React.useState(false);
+  // Start with isLoading true to match client-side behavior after useEffect runs
+  const [isLoading, setIsLoading] = React.useState(true);
   const [hasCopied, setHasCopied] = React.useState(false);
 
   // Keep activeValue valid when data changes
@@ -537,14 +539,16 @@ interface CodeBlockContentProps extends React.ComponentProps<'div'> {
 
 function CodeBlockContent({ showLineNumbers: propShowLineNumbers, className, ...props }: CodeBlockContentProps) {
   const { highlightedCode, isLoading, showLineNumbers: contextShowLineNumbers, activeValue } = useCodeBlock();
+  const mounted = useMounted();
 
   const showLines = propShowLineNumbers ?? contextShowLineNumbers;
   const html = highlightedCode.get(activeValue) ?? '';
 
-  if (isLoading) {
+  if (!mounted || isLoading) {
     return (
       <div
         data-slot="codeblock-content"
+        suppressHydrationWarning
         className={cn('p-4 text-sm text-[var(--muted-foreground)]', className)}
       >
         <div className="animate-pulse">Loading...</div>
@@ -555,6 +559,7 @@ function CodeBlockContent({ showLineNumbers: propShowLineNumbers, className, ...
   return (
     <div
       data-slot="codeblock-content"
+      suppressHydrationWarning
       className={cn(
         'overflow-x-auto text-sm p-4',
         showLines && 'codeblock-line-numbers',

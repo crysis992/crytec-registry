@@ -3,9 +3,7 @@
   "name": "iconpicker",
   "title": "IconPicker",
   "description": "A compound component for selecting icons from Lucide React with search, preview, and optimized rendering.",
-  "dependencies": [
-    "lucide-react"
-  ],
+  "dependencies": ["lucide-react"],
   "registryDependencies": [
     "https://ui.shadcn.com/r/styles/base-vega/button.json",
     "https://ui.shadcn.com/r/styles/base-vega/dialog.json",

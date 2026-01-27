@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { useMounted } from '@/registry/new-york/hooks/use-mounted';
 
 interface TocItem {
   id: string;
@@ -15,8 +16,11 @@ interface TableOfContentsProps {
 
 export function TableOfContents({ items }: TableOfContentsProps) {
   const [activeId, setActiveId] = React.useState<string>('');
+  const mounted = useMounted();
 
   React.useEffect(() => {
+    if (!mounted) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -36,7 +40,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     });
 
     return () => observer.disconnect();
-  }, [items]);
+  }, [items, mounted]);
 
   if (items.length === 0) {
     return null;
@@ -58,10 +62,11 @@ export function TableOfContents({ items }: TableOfContentsProps) {
                       behavior: 'smooth',
                     });
                   }}
+                  suppressHydrationWarning
                   className={cn(
                     'block transition-colors',
                     item.level === 3 && 'pl-4',
-                    activeId === item.id
+                    mounted && activeId === item.id
                       ? 'text-[var(--foreground)] font-medium'
                       : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]',
                   )}

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { useMounted } from '@/registry/new-york/hooks/use-mounted';
 
 interface ComponentPreviewProps {
   children: React.ReactNode;
@@ -23,6 +24,10 @@ interface PreviewTabsProps {
 
 export function PreviewTabs({ preview, codeBlock }: PreviewTabsProps) {
   const [activeTab, setActiveTab] = React.useState<'preview' | 'code'>('preview');
+  const mounted = useMounted();
+
+  // Use displayTab to ensure consistent server/client rendering
+  const displayTab = mounted ? activeTab : 'preview';
 
   return (
     <div className="space-y-0">
@@ -30,9 +35,10 @@ export function PreviewTabs({ preview, codeBlock }: PreviewTabsProps) {
         <button
           type="button"
           onClick={() => setActiveTab('preview')}
+          suppressHydrationWarning
           className={cn(
             'px-4 py-2 text-sm font-medium transition-colors',
-            activeTab === 'preview'
+            displayTab === 'preview'
               ? 'border-b-2 border-[var(--primary)] text-[var(--foreground)]'
               : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]',
           )}
@@ -42,9 +48,10 @@ export function PreviewTabs({ preview, codeBlock }: PreviewTabsProps) {
         <button
           type="button"
           onClick={() => setActiveTab('code')}
+          suppressHydrationWarning
           className={cn(
             'px-4 py-2 text-sm font-medium transition-colors',
-            activeTab === 'code'
+            displayTab === 'code'
               ? 'border-b-2 border-[var(--primary)] text-[var(--foreground)]'
               : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]',
           )}
@@ -52,8 +59,11 @@ export function PreviewTabs({ preview, codeBlock }: PreviewTabsProps) {
           Code
         </button>
       </div>
-      <div className="mt-0">
-        {activeTab === 'preview' ? (
+      <div
+        className="mt-0"
+        suppressHydrationWarning
+      >
+        {displayTab === 'preview' ? (
           <ComponentPreview>{preview}</ComponentPreview>
         ) : (
           <div className="[&>div]:rounded-t-none [&>div]:border-t-0">{codeBlock}</div>
