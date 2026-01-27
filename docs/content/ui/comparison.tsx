@@ -6,7 +6,7 @@ import { PreviewTabs } from '@/docs/components/component-preview';
 import { PropsTable } from '@/docs/components/props-table';
 import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
 import type { PropDefinition } from '@/docs/types';
-import { Comparison, ComparisonHandle, ComparisonItem } from '@/registry/new-york/ui/custom/comparison';
+import { Comparison, ComparisonHandle, ComparisonItem } from '@/registry/new-york/ui/comparison';
 
 const comparisonProps: PropDefinition[] = [
   {

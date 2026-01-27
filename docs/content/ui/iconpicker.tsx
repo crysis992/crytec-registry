@@ -1,12 +1,12 @@
 'use client';
 
 import * as React from 'react';
+import { Button } from '@/components/ui/button';
 import { PreviewTabs } from '@/docs/components/component-preview';
 import { PropsTable } from '@/docs/components/props-table';
 import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
 import type { PropDefinition } from '@/docs/types';
-import { IconPicker, IconPickerContent, IconPickerPreview, IconPickerTrigger } from '@/registry/new-york/ui/custom/iconpicker';
-import { Button } from '@/registry/new-york/ui/shadcn/button';
+import { IconPicker, IconPickerContent, IconPickerPreview, IconPickerTrigger } from '@/registry/new-york/ui/iconpicker';
 
 const iconPickerProps: PropDefinition[] = [
   {

@@ -5,11 +5,11 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { Button } from '@/registry/new-york/ui/shadcn/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/registry/new-york/ui/shadcn/card';
-import { Input } from '@/registry/new-york/ui/shadcn/input';
-import { Label } from '@/registry/new-york/ui/shadcn/label';
-import { Textarea } from '@/registry/new-york/ui/shadcn/textarea';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),

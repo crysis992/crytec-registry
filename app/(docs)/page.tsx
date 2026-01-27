@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getRegistryItemsWithStatus } from '@/lib/registry';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/registry/new-york/ui/shadcn/card';
 
 export default function DocsPage() {
   const allItems = getRegistryItemsWithStatus();

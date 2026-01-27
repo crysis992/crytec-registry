@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Button } from '@/components/ui/button';
 import { PreviewTabs } from '@/docs/components/component-preview';
 import { PropsTable } from '@/docs/components/props-table';
 import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
@@ -15,8 +16,7 @@ import {
   ColorPickerInput,
   ColorPickerSwatch,
   ColorPickerTrigger,
-} from '@/registry/new-york/ui/custom/colorpicker';
-import { Button } from '@/registry/new-york/ui/shadcn/button';
+} from '@/registry/new-york/ui/colorpicker';
 
 const colorPickerProps: PropDefinition[] = [
   {

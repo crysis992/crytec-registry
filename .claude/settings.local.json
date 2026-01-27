@@ -8,7 +8,9 @@
       "WebFetch(domain:api.githubusercontent.com)",
       "WebFetch(domain:www.diceui.com)",
       "WebFetch(domain:shiki.style)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm run registry:build:*)"
     ]
   }
 }

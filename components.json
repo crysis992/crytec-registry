@@ -7,14 +7,20 @@
     "config": "",
     "css": "app/globals.css",
     "baseColor": "neutral",
-    "cssVariables": true
+    "cssVariables": true,
+    "prefix": ""
   },
+  "iconLibrary": "lucide",
   "aliases": {
-    "components": "@/registry/new-york/ui/shadcn",
+    "components": "@/components",
+    "utils": "@/lib/utils",
     "ui": "@/components/ui",
     "lib": "@/lib",
-    "hooks": "@/hooks",
-    "utils": "@/lib/utils"
+    "hooks": "@/hooks"
   },
-  "iconLibrary": "lucide"
+  "registries": {
+    "shadcn": {
+      "url": "https://ui.shadcn.com/r"
+    }
+  }
 }

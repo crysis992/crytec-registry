@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@/registry/new-york/ui/shadcn/button';
+import { Button } from '@/components/ui/button';
 
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Next.js requires Error component name for error boundaries
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {

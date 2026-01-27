@@ -9,27 +9,17 @@
       "title": "CodeBlock",
       "description": "A compound code block component with syntax highlighting, multi-file tabs, copy button, and customizable themes.",
       "dependencies": ["shiki", "lucide-react"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/custom/codeblock.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      "registryDependencies": ["https://ui.shadcn.com/r/styles/new-york/utils.json"],
+      "files": [{ "path": "registry/new-york/ui/codeblock.tsx", "type": "registry:ui" }]
     },
     {
       "name": "comparison",
       "type": "registry:ui",
       "title": "Comparison",
-      "description": "An interactive image comparison component with hover and drag modes, perfect for showcasing before/after images.",
+      "description": "An interactive image comparison component with hover and drag modes.",
       "dependencies": ["motion", "lucide-react"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/custom/comparison.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      "registryDependencies": ["https://ui.shadcn.com/r/styles/new-york/utils.json"],
+      "files": [{ "path": "registry/new-york/ui/comparison.tsx", "type": "registry:ui" }]
     },
     {
       "name": "iconpicker",
@@ -37,27 +27,28 @@
       "title": "IconPicker",
       "description": "A compound component for selecting icons from Lucide React with search, preview, and optimized rendering.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "dialog", "input", "utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/custom/iconpicker.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      "registryDependencies": [
+        "https://ui.shadcn.com/r/styles/new-york/button.json",
+        "https://ui.shadcn.com/r/styles/new-york/dialog.json",
+        "https://ui.shadcn.com/r/styles/new-york/input.json",
+        "https://ui.shadcn.com/r/styles/new-york/utils.json",
+        "use-mounted"
+      ],
+      "files": [{ "path": "registry/new-york/ui/iconpicker.tsx", "type": "registry:ui" }]
     },
     {
       "name": "colorpicker",
       "type": "registry:ui",
       "title": "ColorPicker",
-      "description": "A customizable color picker component with support for hex, rgb, and hsl formats, eye dropper, and preset colors.",
+      "description": "A customizable color picker with hex, rgb, and hsl formats, eye dropper, and preset colors.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "input", "popover", "utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/custom/colorpicker.tsx",
-          "type": "registry:ui"
-        }
-      ]
+      "registryDependencies": [
+        "https://ui.shadcn.com/r/styles/new-york/button.json",
+        "https://ui.shadcn.com/r/styles/new-york/input.json",
+        "https://ui.shadcn.com/r/styles/new-york/popover.json",
+        "https://ui.shadcn.com/r/styles/new-york/utils.json"
+      ],
+      "files": [{ "path": "registry/new-york/ui/colorpicker.tsx", "type": "registry:ui" }]
     },
     {
       "name": "rating",
@@ -65,38 +56,15 @@
       "title": "Rating",
       "description": "An accessible rating component with half-value support, keyboard navigation, and form integration.",
       "dependencies": ["@radix-ui/react-slot", "@radix-ui/react-direction", "lucide-react"],
-      "registryDependencies": ["utils"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/custom/rating.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "utils",
-      "type": "registry:lib",
-      "title": "Utils",
-      "description": "Utility functions including cn() for class name merging.",
-      "dependencies": ["clsx", "tailwind-merge"],
-      "files": [
-        {
-          "path": "registry/new-york/lib/shadcn/utils.ts",
-          "type": "registry:lib"
-        }
-      ]
+      "registryDependencies": ["https://ui.shadcn.com/r/styles/new-york/utils.json"],
+      "files": [{ "path": "registry/new-york/ui/rating.tsx", "type": "registry:ui" }]
     },
     {
       "name": "use-mounted",
       "type": "registry:hook",
       "title": "useMounted",
       "description": "A hook that returns true if the component has mounted. Useful for SSR hydration.",
-      "files": [
-        {
-          "path": "registry/new-york/hooks/use-mounted.ts",
-          "type": "registry:hook"
-        }
-      ]
+      "files": [{ "path": "registry/new-york/hooks/use-mounted.ts", "type": "registry:hook" }]
     },
     {
       "name": "example-form",
@@ -104,13 +72,14 @@
       "title": "Example Form",
       "description": "A contact form with Zod validation and React Hook Form integration.",
       "dependencies": ["zod", "react-hook-form", "@hookform/resolvers"],
-      "registryDependencies": ["button", "input", "label", "textarea", "card"],
-      "files": [
-        {
-          "path": "registry/new-york/blocks/example-form/page.tsx",
-          "type": "registry:component"
-        }
-      ]
+      "registryDependencies": [
+        "https://ui.shadcn.com/r/styles/new-york/button.json",
+        "https://ui.shadcn.com/r/styles/new-york/input.json",
+        "https://ui.shadcn.com/r/styles/new-york/label.json",
+        "https://ui.shadcn.com/r/styles/new-york/textarea.json",
+        "https://ui.shadcn.com/r/styles/new-york/card.json"
+      ],
+      "files": [{ "path": "registry/new-york/blocks/example-form/page.tsx", "type": "registry:component" }]
     }
   ]
 }

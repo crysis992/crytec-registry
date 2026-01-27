@@ -11,7 +11,7 @@ import {
   CodeBlockFiles,
   CodeBlockHeader,
   CodeBlockItem,
-} from '@/registry/new-york/ui/custom/codeblock';
+} from '@/registry/new-york/ui/codeblock';
 
 interface SimpleCodeblockProps {
   code: string;

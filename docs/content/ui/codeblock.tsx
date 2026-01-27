@@ -20,7 +20,7 @@ import {
   CodeBlockSelectItem,
   CodeBlockSelectTrigger,
   CodeBlockSelectValue,
-} from '@/registry/new-york/ui/custom/codeblock';
+} from '@/registry/new-york/ui/codeblock';
 
 const codeblockProps: PropDefinition[] = [
   {

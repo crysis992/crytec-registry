@@ -7,7 +7,7 @@ import { PropsTable } from '@/docs/components/props-table';
 import { SimpleCodeblock } from '@/docs/components/simple-codeblock';
 import type { PropDefinition } from '@/docs/types';
 import { cn } from '@/lib/utils';
-import { Rating, RatingItem } from '@/registry/new-york/ui/custom/rating';
+import { Rating, RatingItem } from '@/registry/new-york/ui/rating';
 
 const ratingProps: PropDefinition[] = [
   {
