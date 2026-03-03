@@ -3,8 +3,12 @@
   "name": "rating",
   "title": "Rating",
   "description": "An accessible rating component with half-value support, keyboard navigation, and form integration.",
-  "dependencies": ["lucide-react"],
-  "registryDependencies": ["https://ui.shadcn.com/r/styles/base-vega/utils.json"],
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "https://ui.shadcn.com/r/styles/base-vega/utils.json"
+  ],
   "files": [
     {
       "path": "registry/new-york/ui/rating.tsx",
