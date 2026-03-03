@@ -74,6 +74,18 @@
       "files": [{ "path": "registry/new-york/ui/date-range-picker.tsx", "type": "registry:ui" }]
     },
     {
+      "name": "dynamic-filterbar",
+      "type": "registry:ui",
+      "title": "DynamicFilterBar",
+      "description": "A powerful, flexible filter bar with search, multi-operator support, sorting, URL sync, and optional async option fetching. Supports controlled/uncontrolled modes with custom renderers.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": [
+        "https://ui.shadcn.com/r/styles/base-vega/button.json",
+        "https://ui.shadcn.com/r/styles/base-vega/utils.json"
+      ],
+      "files": [{ "path": "registry/new-york/ui/dynamic-filterbar.tsx", "type": "registry:ui" }]
+    },
+    {
       "name": "use-mounted",
       "type": "registry:hook",
       "title": "useMounted",
@@ -94,6 +106,33 @@
         "https://ui.shadcn.com/r/styles/base-vega/card.json"
       ],
       "files": [{ "path": "registry/new-york/blocks/example-form/page.tsx", "type": "registry:component" }]
+    },
+    {
+      "name": "dynamic-filterbar-basic",
+      "type": "registry:block",
+      "title": "Dynamic FilterBar - Basic Example",
+      "description": "A basic product filtering example showcasing category, status, and rating filters with sorting.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": [
+        "https://ui.shadcn.com/r/styles/base-vega/button.json",
+        "https://ui.shadcn.com/r/styles/base-vega/utils.json",
+        "dynamic-filterbar"
+      ],
+      "files": [{ "path": "registry/new-york/blocks/dynamic-filterbar-basic/page.tsx", "type": "registry:component" }]
+    },
+    {
+      "name": "dynamic-filterbar-advanced",
+      "type": "registry:block",
+      "title": "Dynamic FilterBar - Advanced Example",
+      "description": "An advanced company directory example with async option fetching, multiple operators, and result aggregation.",
+      "dependencies": ["lucide-react", "@base-ui/react"],
+      "registryDependencies": [
+        "https://ui.shadcn.com/r/styles/base-vega/button.json",
+        "https://ui.shadcn.com/r/styles/base-vega/card.json",
+        "https://ui.shadcn.com/r/styles/base-vega/utils.json",
+        "dynamic-filterbar"
+      ],
+      "files": [{ "path": "registry/new-york/blocks/dynamic-filterbar-advanced/page.tsx", "type": "registry:component" }]
     }
   ]
 }
