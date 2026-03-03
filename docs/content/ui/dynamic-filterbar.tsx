@@ -85,8 +85,11 @@ function SortingExample() {
     { id: 3, name: 'Keyboard', price: 199, rating: 4.8 },
   ];
 
-  const [results, setResults] = useState(PRODUCTS);
-  const [sortInfo, setSortInfo] = useState('');
+  const [filterState, setFilterState] = useState<FilterBarState>({
+    filters: [],
+    search: '',
+    sort: null,
+  });
 
   const filters: FilterDefinition[] = [
     {
@@ -98,27 +101,36 @@ function SortingExample() {
     },
   ];
 
-  const handleApply = (state: FilterBarState) => {
-    let filtered = PRODUCTS;
+  // Apply filtering and sorting
+  let results = PRODUCTS;
 
-    if (state.search) {
-      filtered = filtered.filter((p) => p.name.toLowerCase().includes(state.search.toLowerCase()));
-    }
+  if (filterState.search) {
+    results = results.filter((p) => p.name.toLowerCase().includes(filterState.search.toLowerCase()));
+  }
 
-    if (state.sort) {
-      filtered.sort((a, b) => {
-        const aVal = a[state.sort!.key as keyof typeof a];
-        const bVal = b[state.sort!.key as keyof typeof b];
-        const direction = state.sort!.direction === 'asc' ? 1 : -1;
-        if (typeof aVal === 'string') return aVal.localeCompare(String(bVal)) * direction;
-        return ((aVal as number) - (bVal as number)) * direction;
-      });
+  if (filterState.sort) {
+    const { key, direction } = filterState.sort;
+    results = [...results].sort((a, b) => {
+      let aVal: number | string | undefined;
+      let bVal: number | string | undefined;
 
-      setSortInfo(`Sorted by ${state.sort.key} (${state.sort.direction})`);
-    }
+      if (key === 'name') {
+        aVal = a.name;
+        bVal = b.name;
+      } else if (key === 'price') {
+        aVal = a.price;
+        bVal = b.price;
+      } else if (key === 'rating') {
+        aVal = a.rating;
+        bVal = b.rating;
+      }
 
-    setResults(filtered);
-  };
+      if (aVal === undefined || bVal === undefined) return 0;
+
+      const comparison = typeof aVal === 'string' ? aVal.localeCompare(String(bVal)) : aVal - (bVal as number);
+      return direction === 'asc' ? comparison : -comparison;
+    });
+  }
 
   return (
     <div className="space-y-4">
@@ -129,10 +141,15 @@ function SortingExample() {
           { key: 'price', label: 'Price' },
           { key: 'rating', label: 'Rating' },
         ]}
-        onApply={handleApply}
+        value={filterState}
+        onChange={setFilterState}
         syncToUrl={false}
       />
-      {sortInfo && <p className="text-xs text-muted-foreground">{sortInfo}</p>}
+      {filterState.sort && (
+        <p className="text-xs text-muted-foreground">
+          Sorted by {filterState.sort.key} ({filterState.sort.direction})
+        </p>
+      )}
       <div className="space-y-2">
         {results.map((p) => (
           <div
